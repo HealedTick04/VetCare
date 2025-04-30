@@ -1,9 +1,10 @@
+
 package VetCare.Entities;
 
-public class Administrator extends User {
+public class Admin extends User {
 	private String id_RFC;
 	
-	public Administrator(String id_CURP, String password, String name, String lastName,String numberPhone, String email, String id_RFC) {
+	public Admin(String id_CURP, String password, String name, String lastName,String numberPhone, String email, String id_RFC) {
 	super(id_CURP, password, name, lastName, numberPhone, email);
 	this.id_RFC = id_RFC;
 	}
