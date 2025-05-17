@@ -3,32 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package VetCare.Utils;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 /**
  *
  * @author dary_
  */
-public class PasswordValidator {
-    public static boolean validarContraseña(String contraseña) {
-        if (contraseña.length() < 8) {
-            return false; // Mínimo 8 caracteres
+public class PasswordUtils {
+    
+    public static String hashPassword(String password){
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedByte = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+
+            for (byte b : hashedByte) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
         }
-
-        boolean tieneMayuscula = false;
-        boolean tieneMinuscula = false;
-        boolean tieneNumero = false;
-        boolean tieneEspecial = false;
-
-        // Puedes personalizar esta lista con los caracteres especiales que tú quieras
-        String caracteresEspeciales = "@#$%&*!?";
-
-        for (char c : contraseña.toCharArray()) {
-            if (Character.isUpperCase(c)) tieneMayuscula = true;
-            else if (Character.isLowerCase(c)) tieneMinuscula = true;
-            else if (Character.isDigit(c)) tieneNumero = true;
-            else if (caracteresEspeciales.indexOf(c) != -1) tieneEspecial = true;
-        }
-
-        return tieneMayuscula && tieneMinuscula && tieneNumero && tieneEspecial;
     }
 }

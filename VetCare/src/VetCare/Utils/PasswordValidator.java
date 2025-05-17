@@ -3,32 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package VetCare.Utils;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 
 /**
  *
  * @author dary_
  */
 public class PasswordValidator {
-    public static boolean validarContraseña(String contraseña) {
-        if (contraseña.length() < 8) {
-            return false; // Mínimo 8 caracteres
-        }
+    private static final String PASSWORD_PATTERN =
+        "^(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.*\\d)(?=\\S+$).{8,}$";
 
-        boolean tieneMayuscula = false;
-        boolean tieneMinuscula = false;
-        boolean tieneNumero = false;
-        boolean tieneEspecial = false;
+    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
-        // Puedes personalizar esta lista con los caracteres especiales que tú quieras
-        String caracteresEspeciales = "@#$%&*!?";
-
-        for (char c : contraseña.toCharArray()) {
-            if (Character.isUpperCase(c)) tieneMayuscula = true;
-            else if (Character.isLowerCase(c)) tieneMinuscula = true;
-            else if (Character.isDigit(c)) tieneNumero = true;
-            else if (caracteresEspeciales.indexOf(c) != -1) tieneEspecial = true;
-        }
-
-        return tieneMayuscula && tieneMinuscula && tieneNumero && tieneEspecial;
+    public static boolean isValid(final String password) {
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 }
