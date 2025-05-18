@@ -26,4 +26,11 @@ public class PasswordUtils {
             return null;
         }
     }
+
+    public void toogglePasswordIcon(javax.swing.JPasswordField passwordField, javax.swing.JButton showPasswordButton){
+        if(passwordField.getEchoChar() == 0){
+            passwordField.setEchoChar('*');
+            showPasswordButton.setIcon(new javax.swing.ImageIcon("")); // Colocar la ruta del archivo una vez que cree la carpeta   //
+        }
+    }
 }
