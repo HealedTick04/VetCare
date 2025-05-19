@@ -31,6 +31,9 @@ public class PasswordUtils {
         if(passwordField.getEchoChar() == 0){
             passwordField.setEchoChar('*');
             showPasswordButton.setIcon(new javax.swing.ImageIcon("")); // Colocar la ruta del archivo una vez que cree la carpeta   //
+        } else {
+            passwordField.setEchoChar((char) 0);
+            showPasswordButton.setIcon(new javax.swing.ImageIcon());// Colocar la ruta del archivo una vez que cree la carpeta //
         }
     }
 }
