@@ -4,10 +4,15 @@
  */
 package VetCare.Application;
 
+import javax.swing.JFrame;
+
+import VetCare.Forms.LogingForm;
+import VetCare.Utils.EmailValidator;
+
 /**
  *
  * @author dary_
  */
 public class Main {
-    
+
 }
