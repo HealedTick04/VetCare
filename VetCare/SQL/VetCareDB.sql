@@ -1,0 +1,33 @@
+DROP DATABASE IF EXISTS VetCare_DataBase;
+CREATE DATABASE VetCare_DataBase;
+USE VetCare_DataBase;
+
+CREATE TABLE Vet(
+	vetId VARCHAR(100) NOT NULL,
+    passwordVet VARCHAR(100) NOT NULL,
+    firstName VARCHAR(100) NOT NULL,
+    lastName VARCHAR(100) NOT NULL,
+    numberPhone VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    PRIMARY KEY (vetId)
+);
+
+CREATE TABLE Admi(
+	adminId VARCHAR(100) NOT NULL,
+    passwordAdmin VARCHAR(100) NOT NULL,
+    firstName VARCHAR(100) NOT NULL,
+    lastName VARCHAR(100) NOT NULL,
+    numberPhone VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    PRIMARY KEY (adminId)
+);
+
+CREATE TABLE Customer(
+	customerId VARCHAR(100) NOT NULL,
+    fistName VARCHAR(100) NOT NULL,
+    lastName VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(100) NOT NULL,
+    PRIMARY KEY(customerId)
+);
+
