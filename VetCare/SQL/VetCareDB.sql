@@ -31,3 +31,13 @@ CREATE TABLE Customer(
     PRIMARY KEY(customerId)
 );
 
+CREATE TABLE Pet(
+	petId VARCHAR(100) NOT NULL,
+    petName VARCHAR(100) NOT NULL,
+    species VARCHAR(100) NOT NULL,
+    sex BOOLEAN NOT NULL,
+    birthday DATE NOT NULL,
+    PRIMARY KEY(petId),
+    FOREIGN KEY (customerId) REFERENCEs Customer(customerId)
+);
+
