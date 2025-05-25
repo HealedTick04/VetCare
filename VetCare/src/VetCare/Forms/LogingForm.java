@@ -27,9 +27,31 @@ public class LogingForm extends javax.swing.JPanel {
     private void initComponents() {
 
         panelLogin1 = new VetCare.Components.PanelLogin();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        customTextField1 = new VetCare.Components.CustomTextField();
+        jLabel3 = new javax.swing.JLabel();
+        customTextField2 = new VetCare.Components.CustomTextField();
 
         panelLogin1.setMinimumSize(new java.awt.Dimension(156, 286));
         panelLogin1.setPreferredSize(new java.awt.Dimension(320, 286));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Login");
+        jLabel1.setToolTipText("");
+        panelLogin1.add(jLabel1);
+
+        jLabel2.setText("User Name:");
+        panelLogin1.add(jLabel2);
+
+        customTextField1.setText("customTextField1");
+        panelLogin1.add(customTextField1);
+
+        jLabel3.setText("Password");
+        panelLogin1.add(jLabel3);
+
+        customTextField2.setText("customTextField2");
+        panelLogin1.add(customTextField2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -51,6 +73,11 @@ public class LogingForm extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private VetCare.Components.CustomTextField customTextField1;
+    private VetCare.Components.CustomTextField customTextField2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private VetCare.Components.PanelLogin panelLogin1;
     // End of variables declaration//GEN-END:variables
 }
