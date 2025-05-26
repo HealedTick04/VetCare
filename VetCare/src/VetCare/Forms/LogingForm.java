@@ -4,6 +4,10 @@
  */
 package VetCare.Forms;
 
+import com.formdev.flatlaf.FlatClientProperties;
+import net.miginfocom.swing.MigLayout;
+import VetCare.Application.Application;
+
 /**
  *
  * @author dary_
@@ -15,6 +19,23 @@ public class LogingForm extends javax.swing.JPanel {
      */
     public LogingForm() {
         initComponents();
+        init();
+    }
+    
+    private void init() {
+        setLayout(new MigLayout("al center center"));
+
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
+                + "font:$h1.font");
+        
+        txtPass.putClientProperty(FlatClientProperties.STYLE, ""
+                + "showRevealButton:true;"
+                + "showCapsLock:true");
+        cmdLogin.putClientProperty(FlatClientProperties.STYLE, ""
+                + "borderWidth:0;"
+                + "focusWidth:0");
+        txtUser.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "User Name");
+        txtPass.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
     }
 
     /**
@@ -27,31 +48,40 @@ public class LogingForm extends javax.swing.JPanel {
     private void initComponents() {
 
         panelLogin1 = new VetCare.Components.PanelLogin();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        customTextField1 = new VetCare.Components.CustomTextField();
-        jLabel3 = new javax.swing.JLabel();
-        customTextField2 = new VetCare.Components.CustomTextField();
+        lbTitle = new javax.swing.JLabel();
+        lbUser = new javax.swing.JLabel();
+        txtUser = new VetCare.Components.CustomTextField();
+        lbPass = new javax.swing.JLabel();
+        txtPass = new VetCare.Components.CustomTextField();
+        cmdLogin = new javax.swing.JButton();
 
         panelLogin1.setMinimumSize(new java.awt.Dimension(156, 286));
         panelLogin1.setPreferredSize(new java.awt.Dimension(320, 286));
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Login");
-        jLabel1.setToolTipText("");
-        panelLogin1.add(jLabel1);
+        lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbTitle.setText("Login");
+        lbTitle.setToolTipText("");
+        panelLogin1.add(lbTitle);
 
-        jLabel2.setText("User Name:");
-        panelLogin1.add(jLabel2);
+        lbUser.setText("User Name:");
+        panelLogin1.add(lbUser);
 
-        customTextField1.setText("customTextField1");
-        panelLogin1.add(customTextField1);
+        txtUser.setText("customTextField1");
+        panelLogin1.add(txtUser);
 
-        jLabel3.setText("Password");
-        panelLogin1.add(jLabel3);
+        lbPass.setText("Password");
+        panelLogin1.add(lbPass);
 
-        customTextField2.setText("customTextField2");
-        panelLogin1.add(customTextField2);
+        txtPass.setText("customTextField2");
+        panelLogin1.add(txtPass);
+
+        cmdLogin.setText("Login");
+        cmdLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdLoginActionPerformed(evt);
+            }
+        });
+        panelLogin1.add(cmdLogin);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -71,13 +101,19 @@ public class LogingForm extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
+        // TODO add your handling code here:
+         Application.login();
+    }//GEN-LAST:event_cmdLoginActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private VetCare.Components.CustomTextField customTextField1;
-    private VetCare.Components.CustomTextField customTextField2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton cmdLogin;
+    private javax.swing.JLabel lbPass;
+    private javax.swing.JLabel lbTitle;
+    private javax.swing.JLabel lbUser;
     private VetCare.Components.PanelLogin panelLogin1;
+    private VetCare.Components.CustomTextField txtPass;
+    private VetCare.Components.CustomTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

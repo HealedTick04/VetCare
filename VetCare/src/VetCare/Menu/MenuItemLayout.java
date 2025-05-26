@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  *
  * @author dary_
  */
-public class MenuItemLayout {
+public class MenuItemLayout implements LayoutManager{
     private final Menu menu;
 
     public MenuItemLayout(Menu menu) {

@@ -78,9 +78,9 @@ public class MenuItem extends JPanel{
     }
 
     private Icon getIcon() {
-        Color lightColor = FlatUIUtils.getUIColor("Menu.icon.lightColor", Color.red);
+        Color lightColor = FlatUIUtils.getUIColor("Menu.icon.lightColor", Color.red); //Verificar si hay errores
         Color darkColor = FlatUIUtils.getUIColor("Menu.icon.darkColor", Color.red);
-        FlatSVGIcon icon = new FlatSVGIcon("raven/menu/icon/" + menuIndex + ".svg");
+        FlatSVGIcon icon = new FlatSVGIcon("VetCare/Menu/Icon/" + menuIndex + ".svg");
         FlatSVGIcon.ColorFilter f = new FlatSVGIcon.ColorFilter();
         f.add(Color.decode("#969696"), lightColor, darkColor);
         icon.setColorFilter(f);

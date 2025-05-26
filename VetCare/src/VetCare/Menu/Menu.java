@@ -69,7 +69,7 @@ public class Menu extends JPanel{
 
     private final List<MenuEvent> events = new ArrayList<>();
     private boolean menuFull = true;
-    private final String headerName = "Raven Channel";
+    private final String headerName = "VetCare";
 
     protected final boolean hideMenuTitleOnMinimum = true;
     protected final int menuTitleLeftInset = 5;
@@ -89,7 +89,7 @@ public class Menu extends JPanel{
                 + "background:$Menu.background;"
                 + "arc:10");
         header = new JLabel(headerName);
-        header.setIcon(new ImageIcon(getClass().getResource("/raven/icon/png/logo.png")));
+        header.setIcon(new ImageIcon(getClass().getResource("/VetCare/Icon/PNG/logo.png")));
         header.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$Menu.header.font;"
                 + "foreground:$Menu.foreground");

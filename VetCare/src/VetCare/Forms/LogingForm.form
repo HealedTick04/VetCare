@@ -44,32 +44,40 @@
         </Property>
       </Properties>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="lbTitle">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="Login"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
+        <Component class="javax.swing.JLabel" name="lbUser">
           <Properties>
             <Property name="text" type="java.lang.String" value="User Name:"/>
           </Properties>
         </Component>
-        <Component class="VetCare.Components.CustomTextField" name="customTextField1">
+        <Component class="VetCare.Components.CustomTextField" name="txtUser">
           <Properties>
             <Property name="text" type="java.lang.String" value="customTextField1"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="lbPass">
           <Properties>
             <Property name="text" type="java.lang.String" value="Password"/>
           </Properties>
         </Component>
-        <Component class="VetCare.Components.CustomTextField" name="customTextField2">
+        <Component class="VetCare.Components.CustomTextField" name="txtPass">
           <Properties>
             <Property name="text" type="java.lang.String" value="customTextField2"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="cmdLogin">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Login"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdLoginActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

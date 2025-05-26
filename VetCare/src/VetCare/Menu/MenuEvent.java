@@ -8,6 +8,7 @@ package VetCare.Menu;
  *
  * @author dary_
  */
-public class MenuEvent {
+public interface MenuEvent {
+    
     public void menuSelected(int index, int subIndex, MenuAction action);
 }

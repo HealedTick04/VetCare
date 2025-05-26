@@ -51,8 +51,8 @@ public class LightDarkMode extends JPanel{
         putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:999;"
                 + "background:$Menu.lightdark.background");
-        buttonLight = new JButton("Light", new FlatSVGIcon("raven/menu/mode/light.svg"));// Cambiar las direcciones del documento y añadir los .svg
-        buttonDark = new JButton("Dark", new FlatSVGIcon("raven/menu/mode/dark.svg"));// Cambiar las direcciones del documento y añadir los .svg
+        buttonLight = new JButton("Light", new FlatSVGIcon("VetCare/menu/Mode/light.svg"));// Cambiar las direcciones del documento y añadir los .svg
+        buttonDark = new JButton("Dark", new FlatSVGIcon("VetCare/Menu/Mode/dark.svg"));// Cambiar las direcciones del documento y añadir los .svg
         buttonLighDark = new JButton();
         buttonLighDark.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:999;"
@@ -104,9 +104,9 @@ public class LightDarkMode extends JPanel{
         addStyle(buttonLight, !isDark);
         addStyle(buttonDark, isDark);
         if (isDark) {
-            buttonLighDark.setIcon(new FlatSVGIcon("raven/menu/mode/dark.svg"));// Cambiar las direcciones del documento y añadir los .svg
+            buttonLighDark.setIcon(new FlatSVGIcon("VetCare/Menu/Mode/dark.svg"));// Cambiar las direcciones del documento y añadir los .svg
         } else {
-            buttonLighDark.setIcon(new FlatSVGIcon("raven/menu/mode/light.svg"));// Cambiar las direcciones del documento y añadir los .svg
+            buttonLighDark.setIcon(new FlatSVGIcon("VetCare/Menu/Mode/light.svg"));// Cambiar las direcciones del documento y añadir los .svg
         }
     }
 
