@@ -56,20 +56,14 @@
             <Property name="text" type="java.lang.String" value="User Name:"/>
           </Properties>
         </Component>
-        <Component class="VetCare.Components.CustomTextField" name="txtUser">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="customTextField1"/>
-          </Properties>
+        <Component class="javax.swing.JTextField" name="txtUser">
         </Component>
         <Component class="javax.swing.JLabel" name="lbPass">
           <Properties>
             <Property name="text" type="java.lang.String" value="Password"/>
           </Properties>
         </Component>
-        <Component class="VetCare.Components.CustomTextField" name="txtPass">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="customTextField2"/>
-          </Properties>
+        <Component class="javax.swing.JTextField" name="txtPass">
         </Component>
         <Component class="javax.swing.JButton" name="cmdLogin">
           <Properties>

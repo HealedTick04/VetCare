@@ -50,9 +50,9 @@ public class LogingForm extends javax.swing.JPanel {
         panelLogin1 = new VetCare.Components.PanelLogin();
         lbTitle = new javax.swing.JLabel();
         lbUser = new javax.swing.JLabel();
-        txtUser = new VetCare.Components.CustomTextField();
+        txtUser = new javax.swing.JTextField();
         lbPass = new javax.swing.JLabel();
-        txtPass = new VetCare.Components.CustomTextField();
+        txtPass = new javax.swing.JTextField();
         cmdLogin = new javax.swing.JButton();
 
         panelLogin1.setMinimumSize(new java.awt.Dimension(156, 286));
@@ -65,14 +65,10 @@ public class LogingForm extends javax.swing.JPanel {
 
         lbUser.setText("User Name:");
         panelLogin1.add(lbUser);
-
-        txtUser.setText("customTextField1");
         panelLogin1.add(txtUser);
 
         lbPass.setText("Password");
         panelLogin1.add(lbPass);
-
-        txtPass.setText("customTextField2");
         panelLogin1.add(txtPass);
 
         cmdLogin.setText("Login");
@@ -103,7 +99,7 @@ public class LogingForm extends javax.swing.JPanel {
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
         // TODO add your handling code here:
-         Application.login();
+        Application.login();
     }//GEN-LAST:event_cmdLoginActionPerformed
 
 
@@ -113,7 +109,7 @@ public class LogingForm extends javax.swing.JPanel {
     private javax.swing.JLabel lbTitle;
     private javax.swing.JLabel lbUser;
     private VetCare.Components.PanelLogin panelLogin1;
-    private VetCare.Components.CustomTextField txtPass;
-    private VetCare.Components.CustomTextField txtUser;
+    private javax.swing.JTextField txtPass;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }
