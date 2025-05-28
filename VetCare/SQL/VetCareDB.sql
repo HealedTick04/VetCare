@@ -40,4 +40,21 @@ CREATE TABLE Pet(
     PRIMARY KEY(petId),
     FOREIGN KEY (customerId) REFERENCEs Customer(customerId)
 );
+CREATE TABLE Product (
+    productId VARCHAR(100) NOT NULL,
+    productName VARCHAR(100) NOT NULL,
+    description TEXT,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (productId)
+);
+CREATE TABLE Alarm (
+    alarmId VARCHAR(100) NOT NULL,
+    productId VARCHAR(100) NOT NULL,
+    threshold INT NOT NULL, 
+    message TEXT,
+    PRIMARY KEY (alarmId),
+    FOREIGN KEY (productId) REFERENCES Product(productId)
+);
+
 
