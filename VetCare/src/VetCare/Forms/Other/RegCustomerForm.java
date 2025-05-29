@@ -16,11 +16,13 @@ public class RegCustomerForm extends javax.swing.JPanel {
      */
     public RegCustomerForm() {
         initComponents();
-        lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
-                + "font:$h1.font");
+        init();
     }
     
     public void init(){
+        lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
+                + "font:$h1.font");
+        
         jPanel1.putClientProperty(FlatClientProperties.STYLE, ""
                 + "borderWidth:0;"
                 + "focusWidth:0");
@@ -28,10 +30,10 @@ public class RegCustomerForm extends javax.swing.JPanel {
                 + "borderWidth:0;"
                 + "focusWidth:0");
         
-        txtCustomerName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "<Example: Mayte Karime>");
-        txtCustomerLastName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "<Example: Mesinas Garcia");
+        txtCustomerName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Mayte Karime");
+        txtCustomerLastName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Mesinas Garcia");
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "example@gmail");
-        txtNumberPhone.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "<Example9515555555>");
+        txtNumberPhone.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: 9515555555");
     }
 
     /**
@@ -57,23 +59,11 @@ public class RegCustomerForm extends javax.swing.JPanel {
 
         setToolTipText("");
 
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
-            }
-        });
-
         lbNumberPhone.setText("Number Phone");
 
         lbCustomerName.setText("Customer Name:");
 
         lbCustomerLastName.setText("Customer Lastname");
-
-        txtCustomerLastName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCustomerLastNameActionPerformed(evt);
-            }
-        });
 
         lbEmail.setText("E-mail:");
 
@@ -139,8 +129,8 @@ public class RegCustomerForm extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(93, 93, 93)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -155,14 +145,6 @@ public class RegCustomerForm extends javax.swing.JPanel {
                 .addContainerGap(121, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
-
-    private void txtCustomerLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerLastNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCustomerLastNameActionPerformed
 
     private void cmdAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddActionPerformed
         // TODO add your handling code here:

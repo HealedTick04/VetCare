@@ -10,6 +10,8 @@ import VetCare.Menu.MenuAction;
 import VetCare.Forms.Other.FormDashboard;
 import VetCare.Forms.Other.FormInbox;
 import VetCare.Forms.Other.FormRead;
+import VetCare.Forms.Other.RegCustomerForm;
+import VetCare.Forms.Other.RegPetForm;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.util.UIScale;
@@ -82,7 +84,15 @@ public class MainForm extends JLayeredPane{
                 } else {
                     action.cancel();
                 }
-            } else if (index == 9) {
+            } else if (index == 5){
+                if(subIndex ==1){
+                    Application.showForm(new RegCustomerForm());
+                } else if(subIndex == 2){
+                    Application.showForm(new RegPetForm());
+                } else{
+                    action.cancel();
+                }
+            }else if (index == 9) {
                 Application.logout();
             } else {
                 action.cancel();
