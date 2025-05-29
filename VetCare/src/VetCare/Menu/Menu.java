@@ -36,7 +36,7 @@ public class Menu extends JPanel{
         {"Chat"},
         {"Dates"},
         {"~INVENTORY~"},
-        {"Advanced UI", "Cropper", "Owl Carousel", "Sweet Alert"},
+        {"Management", "Stock", "Catalog", "Report"},
         {"~ARCHIVE~"},
         {"Register", "Customer","Pet"},
         {"Record", "Pet"},
