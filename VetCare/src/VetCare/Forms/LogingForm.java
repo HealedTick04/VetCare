@@ -52,7 +52,7 @@ public class LogingForm extends javax.swing.JPanel {
         lbUser = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
         lbPass = new javax.swing.JLabel();
-        txtPass = new javax.swing.JTextField();
+        txtPass = new javax.swing.JPasswordField();
         cmdLogin = new javax.swing.JButton();
 
         panelLogin1.setMinimumSize(new java.awt.Dimension(156, 286));
@@ -109,7 +109,7 @@ public class LogingForm extends javax.swing.JPanel {
     private javax.swing.JLabel lbTitle;
     private javax.swing.JLabel lbUser;
     private VetCare.Components.PanelLogin panelLogin1;
-    private javax.swing.JTextField txtPass;
+    private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

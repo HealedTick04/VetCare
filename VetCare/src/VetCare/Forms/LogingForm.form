@@ -63,7 +63,7 @@
             <Property name="text" type="java.lang.String" value="Password"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtPass">
+        <Component class="javax.swing.JPasswordField" name="txtPass">
         </Component>
         <Component class="javax.swing.JButton" name="cmdLogin">
           <Properties>
