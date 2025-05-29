@@ -6,7 +6,7 @@ package VetCare.Control;
 
 import VetCare.Control.exceptions.NonexistentEntityException;
 import VetCare.Control.exceptions.PreexistingEntityException;
-import VetCare.EntitiesClasses.Admi;
+import VetCare.Entities.Classes.Admi;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;

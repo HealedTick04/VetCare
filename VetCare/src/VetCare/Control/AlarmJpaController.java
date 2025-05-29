@@ -6,13 +6,13 @@ package VetCare.Control;
 
 import VetCare.Control.exceptions.NonexistentEntityException;
 import VetCare.Control.exceptions.PreexistingEntityException;
-import VetCare.EntitiesClasses.Alarm;
+import VetCare.Entities.Classes.Alarm;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import VetCare.EntitiesClasses.Product;
+import VetCare.Entities.Classes.Product;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

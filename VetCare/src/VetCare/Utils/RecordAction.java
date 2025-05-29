@@ -12,4 +12,4 @@ import java.time.LocalDateTime;
  *
  * @author dary_
  */
-public record  RecordAction (User user, LocalDateTime RecordTime, String actionRecord){}
+//public record  RecordAction (User user, LocalDateTime RecordTime, String actionRecord){}
