@@ -22,10 +22,6 @@ public class RegCustomerForm extends javax.swing.JPanel {
     public void init(){
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$h1.font");
-        
-        jPanel1.putClientProperty(FlatClientProperties.STYLE, ""
-                + "borderWidth:0;"
-                + "focusWidth:0");
         cmdAdd.putClientProperty(FlatClientProperties.STYLE, ""
                 + "borderWidth:0;"
                 + "focusWidth:0");

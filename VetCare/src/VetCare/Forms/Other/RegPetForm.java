@@ -23,9 +23,6 @@ public class RegPetForm extends javax.swing.JPanel {
     public void init(){
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$h1.font");
-        jPanel1.putClientProperty(FlatClientProperties.STYLE, ""
-                + "borderWidth:0;"
-                + "focusWidth:0");
         cmdAdd.putClientProperty(FlatClientProperties.STYLE, ""
                 + "borderWidth:0;"
                 + "focusWidth:0");
@@ -64,7 +61,7 @@ public class RegPetForm extends javax.swing.JPanel {
 
         lbSpecies.setText("Species: ");
 
-        cbSpecies.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbSpecies.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--PERROS--", "Chihuahua", "Pomerania", "Yorkshire Terrier", "Bichón Frisé", "Shih Tzu", "Maltés", "Pekinés", "Dachshund (salchicha)", "Beagle", "Cocker Spaniel", "Border Collie", "Bulldog Francés", "Schnauzer mediano", "Shiba Inu", "Staffordshire Bull Terrier", "Labrador Retriever", "Golden Retriever", "Pastor Alemán", "Dóberman", "Boxer", "Husky Siberiano", "Samoyedo", "Akita Inu", "San Bernardo", "Gran Danés", "Mastín Napolitano", "Terranova", "Leonberger", "Mastín Tibetano", "--GATOS--", "Singapura", "Munchkin", "Cornish Rex", "Devon Rex", "American Curl", "Japanese Bobtail", "Siamés", "Bengalí", "Abisinio", "Azul Ruso", "Europeo de pelo corto", "Burmese (Burmés)", "Snowshoe", "Tonkinés", "Maine Coon", "Bosque de Noruega", "Ragdoll", "Siberiano", "British Shorthair (robusto, aunque no muy alto)", "Highlander", "Selkirk Rex", "--AVES DOMESTICAS--", "Periquito (o perico australiano / budgerigar)", "Canario", "Diamante mandarín (zebra finch)", "Diamante de Gould", "Serín (pariente del canario)", "Jilguero (algunas especies pueden domesticarse)", "Agapornis (inseparables / lovebirds)", "Cotorra argentina (monk parakeet)", "Ninfa (carolina / cockatiel)", "Lorito cabeza azul", "Cotorra de Kramer", "Loris", "Guacamayo (macaw)", "Amazona (loros amazónicos)", "Yaco (loro gris africano)", "Cacatúa", "Eclectus", "--AVES DE CORRAL--", "Gallina", "Gallo", "Pato doméstico (Anas platyrhynchos domesticus)", "Ganso doméstico", "Pavo doméstico", "--OTRAS AVES--", "Paloma doméstica o mensajera", "Codorniz japonesa", "Faisán dorado (más ornamental que doméstico, pero criado en aviarios)", "--LAGARTIJAS Y GECKOS--", "Gecko leopardo (Eublepharis macularius)", "Gecko crestado (Correlophus ciliatus)", "Anolis verde (Anolis carolinensis)", "Dragón barbudo (Pogona vitticeps)", "Uromastyx (lagarto espinoso del desierto)", "Skink de lengua azul (Tiliqua scincoides)", "--SERPIENTES DOMESTICAS NO VENEOSAS--", "Serpiente del maíz (Pantherophis guttatus)", "Pitón bola (Python regius)", "Boa constrictor (requiere más experiencia)", "Serpiente rey de California (Lampropeltis getula californiae)", "Serpiente leche (Lampropeltis triangulum)", "--TORTUGAS TERRESTRES(QUELONIOS TERRESTRES)--", "Serpiente del maíz (Pantherophis guttatus)", "Pitón bola (Python regius)", "Boa constrictor (requiere más experiencia)", "Serpiente rey de California (Lampropeltis getula californiae)", "Serpiente leche (Lampropeltis triangulum)", "--TORTUGAS ACUATICAS O SEMIACUATICAS--", "Tortuga de orejas rojas (Trachemys scripta elegans)", "Tortuga de orejas amarillas", "Tortuga almizclera (Sternotherus odoratus)" }));
 
         cbSex.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
 

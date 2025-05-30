@@ -138,11 +138,110 @@
         <Component class="javax.swing.JComboBox" name="cbSpecies">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
+              <StringArray count="103">
+                <StringItem index="0" value="--PERROS--"/>
+                <StringItem index="1" value="Chihuahua"/>
+                <StringItem index="2" value="Pomerania"/>
+                <StringItem index="3" value="Yorkshire Terrier"/>
+                <StringItem index="4" value="Bich&#xf3;n Fris&#xe9;"/>
+                <StringItem index="5" value="Shih Tzu"/>
+                <StringItem index="6" value="Malt&#xe9;s"/>
+                <StringItem index="7" value="Pekin&#xe9;s"/>
+                <StringItem index="8" value="Dachshund (salchicha)"/>
+                <StringItem index="9" value="Beagle"/>
+                <StringItem index="10" value="Cocker Spaniel"/>
+                <StringItem index="11" value="Border Collie"/>
+                <StringItem index="12" value="Bulldog Franc&#xe9;s"/>
+                <StringItem index="13" value="Schnauzer mediano"/>
+                <StringItem index="14" value="Shiba Inu"/>
+                <StringItem index="15" value="Staffordshire Bull Terrier"/>
+                <StringItem index="16" value="Labrador Retriever"/>
+                <StringItem index="17" value="Golden Retriever"/>
+                <StringItem index="18" value="Pastor Alem&#xe1;n"/>
+                <StringItem index="19" value="D&#xf3;berman"/>
+                <StringItem index="20" value="Boxer"/>
+                <StringItem index="21" value="Husky Siberiano"/>
+                <StringItem index="22" value="Samoyedo"/>
+                <StringItem index="23" value="Akita Inu"/>
+                <StringItem index="24" value="San Bernardo"/>
+                <StringItem index="25" value="Gran Dan&#xe9;s"/>
+                <StringItem index="26" value="Mast&#xed;n Napolitano"/>
+                <StringItem index="27" value="Terranova"/>
+                <StringItem index="28" value="Leonberger"/>
+                <StringItem index="29" value="Mast&#xed;n Tibetano"/>
+                <StringItem index="30" value="--GATOS--"/>
+                <StringItem index="31" value="Singapura"/>
+                <StringItem index="32" value="Munchkin"/>
+                <StringItem index="33" value="Cornish Rex"/>
+                <StringItem index="34" value="Devon Rex"/>
+                <StringItem index="35" value="American Curl"/>
+                <StringItem index="36" value="Japanese Bobtail"/>
+                <StringItem index="37" value="Siam&#xe9;s"/>
+                <StringItem index="38" value="Bengal&#xed;"/>
+                <StringItem index="39" value="Abisinio"/>
+                <StringItem index="40" value="Azul Ruso"/>
+                <StringItem index="41" value="Europeo de pelo corto"/>
+                <StringItem index="42" value="Burmese (Burm&#xe9;s)"/>
+                <StringItem index="43" value="Snowshoe"/>
+                <StringItem index="44" value="Tonkin&#xe9;s"/>
+                <StringItem index="45" value="Maine Coon"/>
+                <StringItem index="46" value="Bosque de Noruega"/>
+                <StringItem index="47" value="Ragdoll"/>
+                <StringItem index="48" value="Siberiano"/>
+                <StringItem index="49" value="British Shorthair (robusto, aunque no muy alto)"/>
+                <StringItem index="50" value="Highlander"/>
+                <StringItem index="51" value="Selkirk Rex"/>
+                <StringItem index="52" value="--AVES DOMESTICAS--"/>
+                <StringItem index="53" value="Periquito (o perico australiano / budgerigar)"/>
+                <StringItem index="54" value="Canario"/>
+                <StringItem index="55" value="Diamante mandar&#xed;n (zebra finch)"/>
+                <StringItem index="56" value="Diamante de Gould"/>
+                <StringItem index="57" value="Ser&#xed;n (pariente del canario)"/>
+                <StringItem index="58" value="Jilguero (algunas especies pueden domesticarse)"/>
+                <StringItem index="59" value="Agapornis (inseparables / lovebirds)"/>
+                <StringItem index="60" value="Cotorra argentina (monk parakeet)"/>
+                <StringItem index="61" value="Ninfa (carolina / cockatiel)"/>
+                <StringItem index="62" value="Lorito cabeza azul"/>
+                <StringItem index="63" value="Cotorra de Kramer"/>
+                <StringItem index="64" value="Loris"/>
+                <StringItem index="65" value="Guacamayo (macaw)"/>
+                <StringItem index="66" value="Amazona (loros amaz&#xf3;nicos)"/>
+                <StringItem index="67" value="Yaco (loro gris africano)"/>
+                <StringItem index="68" value="Cacat&#xfa;a"/>
+                <StringItem index="69" value="Eclectus"/>
+                <StringItem index="70" value="--AVES DE CORRAL--"/>
+                <StringItem index="71" value="Gallina"/>
+                <StringItem index="72" value="Gallo"/>
+                <StringItem index="73" value="Pato dom&#xe9;stico (Anas platyrhynchos domesticus)"/>
+                <StringItem index="74" value="Ganso dom&#xe9;stico"/>
+                <StringItem index="75" value="Pavo dom&#xe9;stico"/>
+                <StringItem index="76" value="--OTRAS AVES--"/>
+                <StringItem index="77" value="Paloma dom&#xe9;stica o mensajera"/>
+                <StringItem index="78" value="Codorniz japonesa"/>
+                <StringItem index="79" value="Fais&#xe1;n dorado (m&#xe1;s ornamental que dom&#xe9;stico, pero criado en aviarios)"/>
+                <StringItem index="80" value="--LAGARTIJAS Y GECKOS--"/>
+                <StringItem index="81" value="Gecko leopardo (Eublepharis macularius)"/>
+                <StringItem index="82" value="Gecko crestado (Correlophus ciliatus)"/>
+                <StringItem index="83" value="Anolis verde (Anolis carolinensis)"/>
+                <StringItem index="84" value="Drag&#xf3;n barbudo (Pogona vitticeps)"/>
+                <StringItem index="85" value="Uromastyx (lagarto espinoso del desierto)"/>
+                <StringItem index="86" value="Skink de lengua azul (Tiliqua scincoides)"/>
+                <StringItem index="87" value="--SERPIENTES DOMESTICAS NO VENEOSAS--"/>
+                <StringItem index="88" value="Serpiente del ma&#xed;z (Pantherophis guttatus)"/>
+                <StringItem index="89" value="Pit&#xf3;n bola (Python regius)"/>
+                <StringItem index="90" value="Boa constrictor (requiere m&#xe1;s experiencia)"/>
+                <StringItem index="91" value="Serpiente rey de California (Lampropeltis getula californiae)"/>
+                <StringItem index="92" value="Serpiente leche (Lampropeltis triangulum)"/>
+                <StringItem index="93" value="--TORTUGAS TERRESTRES(QUELONIOS TERRESTRES)--"/>
+                <StringItem index="94" value="Serpiente del ma&#xed;z (Pantherophis guttatus)"/>
+                <StringItem index="95" value="Pit&#xf3;n bola (Python regius)"/>
+                <StringItem index="96" value="Boa constrictor (requiere m&#xe1;s experiencia)"/>
+                <StringItem index="97" value="Serpiente rey de California (Lampropeltis getula californiae)"/>
+                <StringItem index="98" value="Serpiente leche (Lampropeltis triangulum)"/>
+                <StringItem index="99" value="--TORTUGAS ACUATICAS O SEMIACUATICAS--"/>
+                <StringItem index="100" value="Tortuga de orejas rojas (Trachemys scripta elegans)"/>
+                <StringItem index="101" value="Tortuga de orejas amarillas"/>
+                <StringItem index="102" value="Tortuga almizclera (Sternotherus odoratus)"/>
               </StringArray>
             </Property>
           </Properties>

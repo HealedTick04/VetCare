@@ -40,8 +40,8 @@ public class Menu extends JPanel{
         {"~ARCHIVE~"},
         {"Register", "Customer","Pet"},
         {"Record", "Pet"},
-        {"~OTHER~"},
-        {"Icons", "Feather Icons", "Flag Icons", "Mdi Icons"},
+        {"~ADMIN~"},
+        {"operation", "Add Vet"},
         {"Special Pages", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
         {"Logout"}
     };

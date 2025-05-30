@@ -8,6 +8,7 @@ import VetCare.Application.Application;
 import VetCare.Menu.Menu;
 import VetCare.Menu.MenuAction;
 import VetCare.Forms.Other.FormDashboard;
+import VetCare.Forms.Other.FormDates;
 import VetCare.Forms.Other.FormInbox;
 import VetCare.Forms.Other.FormRead;
 import VetCare.Forms.Other.FormStock;
@@ -85,7 +86,9 @@ public class MainForm extends JLayeredPane{
                 } else {
                     action.cancel();
                 }
-            } else if(index == 4){
+            } else if(index ==3){
+                Application.showForm(new FormDates());
+            }else if(index == 4){
                 if(subIndex == 1){
                     Application.showForm(new FormStock());
                 }else{
