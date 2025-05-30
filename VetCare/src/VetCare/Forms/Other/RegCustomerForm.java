@@ -2,14 +2,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
+
 package VetCare.Forms.Other;
 
+import VetCare.Control.CustomerJpaController;
+import VetCare.Modelo.Customer;
+import VetCare.Modelo.AdmDatos;
+import VetCare.Utils.EmailValidator;
+import VetCare.Utils.StringValidator;
+import VetCare.Utils.TelephoneValidator;
 import com.formdev.flatlaf.FlatClientProperties;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import VetCare.Modelo.ModelTableCustomer;
 /**
  *
  * @author dary_
  */
 public class RegCustomerForm extends javax.swing.JPanel {
+    private CustomerJpaController cCustomer;
+    private Customer customer;
+    private List <Customer> customers;
+    private ModelTableCustomer modelo_customer;
+   
+ 
 
     /**
      * Creates new form RegCustomerForm
@@ -17,8 +34,34 @@ public class RegCustomerForm extends javax.swing.JPanel {
     public RegCustomerForm() {
         initComponents();
         init();
+        loadCustomersInBackground() ;
     }
     
+private void loadCustomersInBackground() {
+   SwingWorker<List<Customer>, Void> worker = new SwingWorker<List<Customer>, Void>() {
+    @Override
+    protected List<Customer> doInBackground() throws Exception {
+        cCustomer = new CustomerJpaController(AdmDatos.getEnf());
+        return cCustomer.findCustomerEntities();
+    }
+
+    @Override
+    protected void done() {
+        try {
+            customers = get(); 
+             modelo_customer = new ModelTableCustomer(customers);
+            System.out.println("Clientes cargados: " + customers.size());
+            JtableCustomer.setModel(modelo_customer); 
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("pipi");
+        }
+    }
+};
+   worker.execute();
+
+}  
     public void init(){
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:$h1.font");
@@ -31,7 +74,6 @@ public class RegCustomerForm extends javax.swing.JPanel {
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "example@gmail");
         txtNumberPhone.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: 9515555555");
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,6 +83,10 @@ public class RegCustomerForm extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         txtEmail = new javax.swing.JTextField();
         lbNumberPhone = new javax.swing.JLabel();
@@ -50,59 +96,78 @@ public class RegCustomerForm extends javax.swing.JPanel {
         lbCustomerLastName = new javax.swing.JLabel();
         txtCustomerLastName = new javax.swing.JTextField();
         lbEmail = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        JtableCustomer = new javax.swing.JTable();
         cmdAdd = new javax.swing.JButton();
         lbTitle = new javax.swing.JLabel();
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
         setToolTipText("");
+        setPreferredSize(new java.awt.Dimension(806, 465));
 
         lbNumberPhone.setText("Number Phone");
+
+        txtNumberPhone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumberPhoneActionPerformed(evt);
+            }
+        });
+
+        txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCustomerNameActionPerformed(evt);
+            }
+        });
 
         lbCustomerName.setText("Customer Name:");
 
         lbCustomerLastName.setText("Customer Lastname");
 
+        txtCustomerLastName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCustomerLastNameActionPerformed(evt);
+            }
+        });
+
         lbEmail.setText("E-mail:");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbCustomerName)
-                    .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbEmail)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCustomerLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbCustomerLastName)
-                    .addComponent(lbNumberPhone)
-                    .addComponent(txtNumberPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(88, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbCustomerName)
-                    .addComponent(lbCustomerLastName))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCustomerLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbEmail)
-                    .addComponent(lbNumberPhone))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNumberPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
-        );
+        JtableCustomer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(JtableCustomer);
 
         cmdAdd.setText("Add");
         cmdAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -110,6 +175,59 @@ public class RegCustomerForm extends javax.swing.JPanel {
                 cmdAddActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmdAdd)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbCustomerName)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lbEmail))
+                                .addGap(64, 64, 64)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbCustomerLastName)
+                                    .addComponent(txtCustomerLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbNumberPhone)
+                                    .addComponent(txtNumberPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbCustomerName)
+                    .addComponent(lbCustomerLastName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCustomerLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbEmail)
+                    .addComponent(lbNumberPhone))
+                .addGap(3, 3, 3)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNumberPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(cmdAdd)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
+        );
 
         lbTitle.setText("Register Customer Form");
 
@@ -120,37 +238,107 @@ public class RegCustomerForm extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(155, 155, 155)
-                        .addComponent(cmdAdd))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(93, 93, 93)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                        .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(58, 58, 58)
                 .addComponent(lbTitle)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cmdAdd)
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddActionPerformed
         // TODO add your handling code here:
+        String n = txtCustomerName.getText();
+        System.out.println(n+ "dd");
+       if(!StringValidator.isValid(n ) ){
+           JOptionPane.showMessageDialog(null, "El formato del nombre es incorrecto");
+           System.out.println("mal");
+           return;    
+       }
+      
+       String lastna = txtCustomerLastName.getText();
+       if(!StringValidator.isValid(lastna)){    
+       JOptionPane.showMessageDialog(null, "El formato del apellido es incorrecto");
+       return;
+       }
+       
+       String email = txtEmail.getText();
+       if(!EmailValidator.isValid(email)){
+           JOptionPane.showMessageDialog(null, "El formato del email es incorrecto");
+           return;
+       }
+       
+       String number = txtNumberPhone.getText();
+       if(!TelephoneValidator.isValid(number)){
+           JOptionPane.showMessageDialog(null, "El formato del telefono es incorrecto");
+           return;      
+       }
+ 
+        System.out.println("jaló");
+        customer = new Customer();
+        
+        customer.setFirstName(n);
+        customer.setEmail(email);
+        customer.setLastName(lastna);
+        
+        customer.setPhone(number);
+        cCustomer.create(customer);
+        
+        
+        //cargar la tabla
+        customers.add(customer);
+        modelo_customer.fireTableDataChanged();
+        
+        //volver a vaciar los textfield
+        
+        txtCustomerName.setText("");
+        txtCustomerLastName.setText("");
+        txtEmail.setText("");
+        txtNumberPhone.setText("");
+       
+        
+        txtCustomerName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Mayte Karime");
+        txtCustomerLastName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Mesinas Garcia");
+        txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "example@gmail");
+        txtNumberPhone.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: 9515555555");
+        
+        
+        
         
     }//GEN-LAST:event_cmdAddActionPerformed
 
+    private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCustomerNameActionPerformed
+
+    private void txtCustomerLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerLastNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCustomerLastNameActionPerformed
+
+    private void txtNumberPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumberPhoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumberPhoneActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable JtableCustomer;
     private javax.swing.JButton cmdAdd;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lbCustomerLastName;
     private javax.swing.JLabel lbCustomerName;
     private javax.swing.JLabel lbEmail;

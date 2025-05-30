@@ -2,15 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package VetCare.Entities.Classes;
+package VetCare.Modelo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -31,9 +36,10 @@ public class Vet implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "vetId")
-    private String vetId;
+    private Integer vetId;
     @Basic(optional = false)
     @Column(name = "passwordVet")
     private String passwordVet;
@@ -49,15 +55,17 @@ public class Vet implements Serializable {
     @Basic(optional = false)
     @Column(name = "email")
     private String email;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vetId")
+    private Collection<Appointment> appointmentCollection;
 
     public Vet() {
     }
 
-    public Vet(String vetId) {
+    public Vet(Integer vetId) {
         this.vetId = vetId;
     }
 
-    public Vet(String vetId, String passwordVet, String firstName, String lastName, String numberPhone, String email) {
+    public Vet(Integer vetId, String passwordVet, String firstName, String lastName, String numberPhone, String email) {
         this.vetId = vetId;
         this.passwordVet = passwordVet;
         this.firstName = firstName;
@@ -66,11 +74,11 @@ public class Vet implements Serializable {
         this.email = email;
     }
 
-    public String getVetId() {
+    public Integer getVetId() {
         return vetId;
     }
 
-    public void setVetId(String vetId) {
+    public void setVetId(Integer vetId) {
         this.vetId = vetId;
     }
 
@@ -114,6 +122,14 @@ public class Vet implements Serializable {
         this.email = email;
     }
 
+    public Collection<Appointment> getAppointmentCollection() {
+        return appointmentCollection;
+    }
+
+    public void setAppointmentCollection(Collection<Appointment> appointmentCollection) {
+        this.appointmentCollection = appointmentCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -136,7 +152,7 @@ public class Vet implements Serializable {
 
     @Override
     public String toString() {
-        return "VetCare.EntitiesClasses.Vet[ vetId=" + vetId + " ]";
+        return "VetCare.Modelo.Vet[ vetId=" + vetId + " ]";
     }
     
 }

@@ -2,18 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package VetCare.Entities.Classes;
+package VetCare.Modelo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,9 +40,10 @@ public class Pet implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "petId")
-    private String petId;
+    private Integer petId;
     @Basic(optional = false)
     @Column(name = "petName")
     private String petName;
@@ -51,6 +57,8 @@ public class Pet implements Serializable {
     @Column(name = "birthday")
     @Temporal(TemporalType.DATE)
     private Date birthday;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "petId")
+    private Collection<Appointment> appointmentCollection;
     @JoinColumn(name = "customerId", referencedColumnName = "customerId")
     @ManyToOne(optional = false)
     private Customer customerId;
@@ -58,11 +66,11 @@ public class Pet implements Serializable {
     public Pet() {
     }
 
-    public Pet(String petId) {
+    public Pet(Integer petId) {
         this.petId = petId;
     }
 
-    public Pet(String petId, String petName, String species, boolean sex, Date birthday) {
+    public Pet(Integer petId, String petName, String species, boolean sex, Date birthday) {
         this.petId = petId;
         this.petName = petName;
         this.species = species;
@@ -70,11 +78,11 @@ public class Pet implements Serializable {
         this.birthday = birthday;
     }
 
-    public String getPetId() {
+    public Integer getPetId() {
         return petId;
     }
 
-    public void setPetId(String petId) {
+    public void setPetId(Integer petId) {
         this.petId = petId;
     }
 
@@ -110,6 +118,14 @@ public class Pet implements Serializable {
         this.birthday = birthday;
     }
 
+    public Collection<Appointment> getAppointmentCollection() {
+        return appointmentCollection;
+    }
+
+    public void setAppointmentCollection(Collection<Appointment> appointmentCollection) {
+        this.appointmentCollection = appointmentCollection;
+    }
+
     public Customer getCustomerId() {
         return customerId;
     }
@@ -140,7 +156,11 @@ public class Pet implements Serializable {
 
     @Override
     public String toString() {
-        return "VetCare.EntitiesClasses.Pet[ petId=" + petId + " ]";
+        return "VetCare.Modelo.Pet[ petId=" + petId + " ]";
+    }
+
+    Object getName() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

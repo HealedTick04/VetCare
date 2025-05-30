@@ -5,14 +5,13 @@
 package VetCare.Control;
 
 import VetCare.Control.exceptions.NonexistentEntityException;
-import VetCare.Control.exceptions.PreexistingEntityException;
-import VetCare.Entities.Classes.Alarm;
+import VetCare.Modelo.Alarm;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import VetCare.Entities.Classes.Product;
+import VetCare.Modelo.Product;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -32,7 +31,7 @@ public class AlarmJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Alarm alarm) throws PreexistingEntityException, Exception {
+    public void create(Alarm alarm) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -48,11 +47,6 @@ public class AlarmJpaController implements Serializable {
                 productId = em.merge(productId);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findAlarm(alarm.getAlarmId()) != null) {
-                throw new PreexistingEntityException("Alarm " + alarm + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -85,7 +79,7 @@ public class AlarmJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = alarm.getAlarmId();
+                Integer id = alarm.getAlarmId();
                 if (findAlarm(id) == null) {
                     throw new NonexistentEntityException("The alarm with id " + id + " no longer exists.");
                 }
@@ -98,7 +92,7 @@ public class AlarmJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -148,7 +142,7 @@ public class AlarmJpaController implements Serializable {
         }
     }
 
-    public Alarm findAlarm(String id) {
+    public Alarm findAlarm(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Alarm.class, id);

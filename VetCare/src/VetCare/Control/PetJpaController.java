@@ -4,15 +4,18 @@
  */
 package VetCare.Control;
 
+import VetCare.Control.exceptions.IllegalOrphanException;
 import VetCare.Control.exceptions.NonexistentEntityException;
-import VetCare.Control.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import VetCare.Entities.Classes.Customer;
-import VetCare.Entities.Classes.Pet;
+import VetCare.Modelo.Customer;
+import VetCare.Modelo.Appointment;
+import VetCare.Modelo.Pet;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -32,7 +35,10 @@ public class PetJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Pet pet) throws PreexistingEntityException, Exception {
+    public void create(Pet pet) {
+        if (pet.getAppointmentCollection() == null) {
+            pet.setAppointmentCollection(new ArrayList<Appointment>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -42,17 +48,27 @@ public class PetJpaController implements Serializable {
                 customerId = em.getReference(customerId.getClass(), customerId.getCustomerId());
                 pet.setCustomerId(customerId);
             }
+            Collection<Appointment> attachedAppointmentCollection = new ArrayList<Appointment>();
+            for (Appointment appointmentCollectionAppointmentToAttach : pet.getAppointmentCollection()) {
+                appointmentCollectionAppointmentToAttach = em.getReference(appointmentCollectionAppointmentToAttach.getClass(), appointmentCollectionAppointmentToAttach.getAppointmentId());
+                attachedAppointmentCollection.add(appointmentCollectionAppointmentToAttach);
+            }
+            pet.setAppointmentCollection(attachedAppointmentCollection);
             em.persist(pet);
             if (customerId != null) {
                 customerId.getPetCollection().add(pet);
                 customerId = em.merge(customerId);
             }
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findPet(pet.getPetId()) != null) {
-                throw new PreexistingEntityException("Pet " + pet + " already exists.", ex);
+            for (Appointment appointmentCollectionAppointment : pet.getAppointmentCollection()) {
+                Pet oldPetIdOfAppointmentCollectionAppointment = appointmentCollectionAppointment.getPetId();
+                appointmentCollectionAppointment.setPetId(pet);
+                appointmentCollectionAppointment = em.merge(appointmentCollectionAppointment);
+                if (oldPetIdOfAppointmentCollectionAppointment != null) {
+                    oldPetIdOfAppointmentCollectionAppointment.getAppointmentCollection().remove(appointmentCollectionAppointment);
+                    oldPetIdOfAppointmentCollectionAppointment = em.merge(oldPetIdOfAppointmentCollectionAppointment);
+                }
             }
-            throw ex;
+            em.getTransaction().commit();
         } finally {
             if (em != null) {
                 em.close();
@@ -60,7 +76,7 @@ public class PetJpaController implements Serializable {
         }
     }
 
-    public void edit(Pet pet) throws NonexistentEntityException, Exception {
+    public void edit(Pet pet) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -68,10 +84,31 @@ public class PetJpaController implements Serializable {
             Pet persistentPet = em.find(Pet.class, pet.getPetId());
             Customer customerIdOld = persistentPet.getCustomerId();
             Customer customerIdNew = pet.getCustomerId();
+            Collection<Appointment> appointmentCollectionOld = persistentPet.getAppointmentCollection();
+            Collection<Appointment> appointmentCollectionNew = pet.getAppointmentCollection();
+            List<String> illegalOrphanMessages = null;
+            for (Appointment appointmentCollectionOldAppointment : appointmentCollectionOld) {
+                if (!appointmentCollectionNew.contains(appointmentCollectionOldAppointment)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Appointment " + appointmentCollectionOldAppointment + " since its petId field is not nullable.");
+                }
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             if (customerIdNew != null) {
                 customerIdNew = em.getReference(customerIdNew.getClass(), customerIdNew.getCustomerId());
                 pet.setCustomerId(customerIdNew);
             }
+            Collection<Appointment> attachedAppointmentCollectionNew = new ArrayList<Appointment>();
+            for (Appointment appointmentCollectionNewAppointmentToAttach : appointmentCollectionNew) {
+                appointmentCollectionNewAppointmentToAttach = em.getReference(appointmentCollectionNewAppointmentToAttach.getClass(), appointmentCollectionNewAppointmentToAttach.getAppointmentId());
+                attachedAppointmentCollectionNew.add(appointmentCollectionNewAppointmentToAttach);
+            }
+            appointmentCollectionNew = attachedAppointmentCollectionNew;
+            pet.setAppointmentCollection(appointmentCollectionNew);
             pet = em.merge(pet);
             if (customerIdOld != null && !customerIdOld.equals(customerIdNew)) {
                 customerIdOld.getPetCollection().remove(pet);
@@ -81,11 +118,22 @@ public class PetJpaController implements Serializable {
                 customerIdNew.getPetCollection().add(pet);
                 customerIdNew = em.merge(customerIdNew);
             }
+            for (Appointment appointmentCollectionNewAppointment : appointmentCollectionNew) {
+                if (!appointmentCollectionOld.contains(appointmentCollectionNewAppointment)) {
+                    Pet oldPetIdOfAppointmentCollectionNewAppointment = appointmentCollectionNewAppointment.getPetId();
+                    appointmentCollectionNewAppointment.setPetId(pet);
+                    appointmentCollectionNewAppointment = em.merge(appointmentCollectionNewAppointment);
+                    if (oldPetIdOfAppointmentCollectionNewAppointment != null && !oldPetIdOfAppointmentCollectionNewAppointment.equals(pet)) {
+                        oldPetIdOfAppointmentCollectionNewAppointment.getAppointmentCollection().remove(appointmentCollectionNewAppointment);
+                        oldPetIdOfAppointmentCollectionNewAppointment = em.merge(oldPetIdOfAppointmentCollectionNewAppointment);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = pet.getPetId();
+                Integer id = pet.getPetId();
                 if (findPet(id) == null) {
                     throw new NonexistentEntityException("The pet with id " + id + " no longer exists.");
                 }
@@ -98,7 +146,7 @@ public class PetJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -109,6 +157,17 @@ public class PetJpaController implements Serializable {
                 pet.getPetId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The pet with id " + id + " no longer exists.", enfe);
+            }
+            List<String> illegalOrphanMessages = null;
+            Collection<Appointment> appointmentCollectionOrphanCheck = pet.getAppointmentCollection();
+            for (Appointment appointmentCollectionOrphanCheckAppointment : appointmentCollectionOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Pet (" + pet + ") cannot be destroyed since the Appointment " + appointmentCollectionOrphanCheckAppointment + " in its appointmentCollection field has a non-nullable petId field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             Customer customerId = pet.getCustomerId();
             if (customerId != null) {
@@ -148,7 +207,7 @@ public class PetJpaController implements Serializable {
         }
     }
 
-    public Pet findPet(String id) {
+    public Pet findPet(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Pet.class, id);

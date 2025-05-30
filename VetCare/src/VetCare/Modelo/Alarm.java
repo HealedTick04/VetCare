@@ -2,12 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package VetCare.Entities.Classes;
+package VetCare.Modelo;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -30,9 +32,10 @@ public class Alarm implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "alarmId")
-    private String alarmId;
+    private Integer alarmId;
     @Basic(optional = false)
     @Column(name = "threshold")
     private int threshold;
@@ -46,20 +49,20 @@ public class Alarm implements Serializable {
     public Alarm() {
     }
 
-    public Alarm(String alarmId) {
+    public Alarm(Integer alarmId) {
         this.alarmId = alarmId;
     }
 
-    public Alarm(String alarmId, int threshold) {
+    public Alarm(Integer alarmId, int threshold) {
         this.alarmId = alarmId;
         this.threshold = threshold;
     }
 
-    public String getAlarmId() {
+    public Integer getAlarmId() {
         return alarmId;
     }
 
-    public void setAlarmId(String alarmId) {
+    public void setAlarmId(Integer alarmId) {
         this.alarmId = alarmId;
     }
 
@@ -109,7 +112,7 @@ public class Alarm implements Serializable {
 
     @Override
     public String toString() {
-        return "VetCare.EntitiesClasses.Alarm[ alarmId=" + alarmId + " ]";
+        return "VetCare.Modelo.Alarm[ alarmId=" + alarmId + " ]";
     }
     
 }

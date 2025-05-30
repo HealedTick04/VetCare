@@ -4,7 +4,19 @@
  */
 package VetCare.Forms.Other;
 
+import VetCare.Control.VetJpaController;
+import VetCare.Modelo.AdmDatos;
+import VetCare.Modelo.ModelTableVet;
+import VetCare.Modelo.Vet;
+import VetCare.Utils.EmailValidator;
+import VetCare.Utils.PasswordUtils;
+import VetCare.Utils.PasswordValidator;
+import VetCare.Utils.StringValidator;
+import VetCare.Utils.TelephoneValidator;
 import com.formdev.flatlaf.FlatClientProperties;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -15,10 +27,43 @@ public class FormAddVet extends javax.swing.JPanel {
     /**
      * Creates new form FormAddVet
      */
+    private VetJpaController cVet;
+    private Vet vet;
+    private List<Vet> vets;
+    private ModelTableVet modelo_vet;
+
     public FormAddVet() {
         initComponents();
         init();
+        loadVetsInBackground();
     }
+    
+    
+    private void loadVetsInBackground() {
+    SwingWorker<List<Vet>, Void> worker = new SwingWorker<List<Vet>, Void>() {
+        @Override
+        protected List<Vet> doInBackground() throws Exception {
+            cVet = new VetJpaController(AdmDatos.getEnf());
+            return cVet.findVetEntities();
+        }
+
+        @Override
+        protected void done() {
+            try {
+                vets = get(); 
+                modelo_vet = new ModelTableVet(vets);
+                System.out.println("Veterinarios cargados: " + vets.size());
+                JTableVet.setModel(modelo_vet); 
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("Error al cargar veterinarios");
+            }
+        }
+    };
+    worker.execute();
+}
+
     
     public void init(){
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
@@ -28,9 +73,8 @@ public class FormAddVet extends javax.swing.JPanel {
                 + "focusWidth:0");
         txtName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Mayte Karime");
         txtLastName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Mesinas Garcia");
-        txtTuition.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "98765432");
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "example@gmail.com");
-        txtNumber.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "9515555555");
+        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "9515555555");
     }
 
     /**
@@ -42,78 +86,127 @@ public class FormAddVet extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         lbTitle = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtCURP = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtLastName = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        txtTuition = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtNumber = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JTextField();
         cmdAdd = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        JTableVet = new javax.swing.JTable();
+        txtNumber1 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
 
         lbTitle.setText("Add Vet");
-
-        jLabel2.setText("CURP: ");
 
         jLabel3.setText("Name: ");
 
         jLabel4.setText("LastName: ");
 
-        jLabel5.setText(" Tuition:");
-
         jLabel6.setText("E-mail: ");
 
         jLabel7.setText("Number phone:");
 
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPasswordActionPerformed(evt);
+            }
+        });
+
         cmdAdd.setText("Add");
+        cmdAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdAddActionPerformed(evt);
+            }
+        });
+
+        JTableVet.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(JTableVet);
+
+        txtNumber1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumber1ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Password");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+                .addGap(134, 134, 134)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cmdAdd)
+                    .addComponent(jLabel5)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(txtCURP)
                             .addComponent(txtName)
                             .addComponent(txtLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                         .addGap(52, 52, 52)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel5)
-                            .addComponent(txtTuition)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(txtEmail)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7)
-                            .addComponent(txtNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
-                    .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(287, Short.MAX_VALUE))
+                            .addComponent(txtNumber1)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmdAdd))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(63, 63, 63)
+                .addGap(62, 62, 62)
                 .addComponent(lbTitle)
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCURP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTuition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(60, 60, 60)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel6))
@@ -128,28 +221,113 @@ public class FormAddVet extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(txtNumber1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
                 .addComponent(cmdAdd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(70, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmdAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddActionPerformed
+        // TODO add your handling code here:
+      
+String nombre = txtName.getText().trim();
+String apellido = txtLastName.getText().trim();
+String email = txtEmail.getText().trim();
+String telefono = txtNumber1.getText().trim();
+String password = txtPassword.getText().trim();
+
+
+if (!StringValidator.isValid(nombre)) {
+    JOptionPane.showMessageDialog(null, "El formato del nombre es incorrecto");
+    return;
+}
+
+if (!StringValidator.isValid(apellido)) {
+    JOptionPane.showMessageDialog(null, "El formato del apellido es incorrecto");
+    return;
+}
+
+
+if (!EmailValidator.isValid(email)) {
+    JOptionPane.showMessageDialog(null, "El formato del email es incorrecto");
+    return;
+}
+
+
+if (!TelephoneValidator.isValid(telefono)) {
+    JOptionPane.showMessageDialog(null, "El formato del teléfono es incorrecto");
+    return;
+}
+
+
+if (!PasswordValidator.isValid(password)) {
+    JOptionPane.showMessageDialog(null, "El formato de la contraseña es incorrecto");
+    return;
+}
+
+// Crear nuevo objeto Vet
+Vet vet = new Vet();
+vet.setFirstName(nombre);
+vet.setLastName(apellido);
+vet.setEmail(email);
+vet.setNumberPhone(telefono);
+vet.setPasswordVet(password);
+
+    cVet.create(vet); 
+    vets.add(vet); 
+    modelo_vet.fireTableDataChanged(); 
+
+    txtName.setText("");
+    txtLastName.setText("");
+    txtEmail.setText("");
+    txtPassword.setText("");
+    txtNumber1.setText("");
+
+    txtName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Mayte Karime");
+    txtLastName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Mesinas Garcia");
+    txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "example@gmail.com");
+    txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "paswo12@as");
+     txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "9511234567");
+
+    System.out.println("Veterinario registrado correctamente");
+
+
+    }//GEN-LAST:event_cmdAddActionPerformed
+
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordActionPerformed
+
+    private void txtNumber1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumber1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumber1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable JTableVet;
     private javax.swing.JButton cmdAdd;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lbTitle;
-    private javax.swing.JTextField txtCURP;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtLastName;
     private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtNumber;
-    private javax.swing.JTextField txtTuition;
+    private javax.swing.JTextField txtNumber1;
+    private javax.swing.JTextField txtPassword;
     // End of variables declaration//GEN-END:variables
 }

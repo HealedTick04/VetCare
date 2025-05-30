@@ -4,12 +4,33 @@
  */
 package VetCare.Forms.Other;
 
+import VetCare.Control.AppointmentJpaController;
+import VetCare.Control.CustomerJpaController;
+import VetCare.Control.PetJpaController;
+import VetCare.Modelo.AdmDatos;
+import VetCare.Modelo.Appointment;
+import VetCare.Modelo.Customer;
+import VetCare.Modelo.ModelTableAppointment;
+import VetCare.Modelo.Pet;
 import com.formdev.flatlaf.FlatClientProperties;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.SwingWorker;
 /**
  *
  * @author dary_
  */
 public class FormDates extends javax.swing.JPanel {
+private AppointmentJpaController cAppointment;
+private Appointment appointment;
+private List<Appointment> appointments;
+private ModelTableAppointment modelo_appointment;
+private Customer customer;
+private PetJpaController cPet;
+private Pet pet;
+private List<Pet> pets;
+private Map<Integer, Pet> hash_pet = new HashMap<>();
 
     /**
      * Creates new form FormDates
@@ -17,17 +38,58 @@ public class FormDates extends javax.swing.JPanel {
     public FormDates() {
         initComponents();
         init();
+        loadAppointmentsInBackground();
+        
     }
     
     public void init(){
         cmdAccept.putClientProperty(FlatClientProperties.STYLE, ""
                 + "borderWidth:0;"
                 + "focusWidth:0");
-        txtPet.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Albondiga");
+        txtOwner.setEditable(false);
+
+        cbPet.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Albondiga");
         txtOwner.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Mayte Karime Mesinas Garcia");
         txtPhone.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "9515555555");
     }
+    private void loadAppointmentsInBackground() {
+    SwingWorker<List<Appointment>, Void> worker = new SwingWorker<List<Appointment>, Void>() {
+        @Override
+        protected List<Appointment> doInBackground() throws Exception {
+            cAppointment = new AppointmentJpaController(AdmDatos.getEnf());
+            cPet = new PetJpaController(AdmDatos.getEnf());
+            pets = cPet.findPetEntities();
+            
+                    return cAppointment.findAppointmentEntities();
+        }
 
+        @Override
+        protected void done() {
+            try {
+                appointments = get(); 
+                modelo_appointment = new ModelTableAppointment(appointments);
+                System.out.println("Citas cargadas: " + appointments.size());
+                jTableAppo.setModel(modelo_appointment); 
+                getPets(); 
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("Error al cargar citas");
+            }
+        }
+    };
+    worker.execute();
+}
+public void getPets() {
+    cbPet.removeAllItems();
+    cbPet.addItem("~SELECCIONA~");
+    int i = 1;
+    for (Pet p : pets) {
+        String s = p.getPetName() + " (" + p.getSpecies() + ")";
+        cbPet.addItem(s);
+        hash_pet.put(i, p);
+        i++;
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,20 +99,23 @@ public class FormDates extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCalendar1 = new com.toedter.calendar.JCalendar();
         jLabel1 = new javax.swing.JLabel();
-        txtPet = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtOwner = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtPhone = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        cbAddDelete = new javax.swing.JComboBox<>();
         cmdAccept = new javax.swing.JButton();
-        calendar2 = new raven.calendar.Calendar();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableAppo = new javax.swing.JTable();
+        cbPet = new javax.swing.JComboBox<>();
+        txtOwner = new javax.swing.JTextField();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
 
-        jLabel1.setText("PetName: ");
+        jLabel1.setText("Register Date Form");
 
         jLabel2.setText("Owner: ");
 
@@ -64,18 +129,40 @@ public class FormDates extends javax.swing.JPanel {
 
         jLabel4.setText("Hr. :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "7:00 a.m.", "7:15 a.m.", "7:30 a.m.", "7:45 a.m.", "8:00 a.m.", "8:15 a.m.", "8:30 a.m.", "8:45 a.m.", "9:00 a.m.", "9:15 a.m.", "9:30 a.m.", "9:45 a.m.", "10:00 a.m.", "10:15 a.m.", "10:30 a.m.", "10:45 a.m.", "11:00 a.m.", "11:15 a.m.", "11:30 a.m.", "11:45 a.m.", "12:00 p.m.", "12:15 p.m.", "12:30 p.m.", "12:45 p.m.", "1:00 p.m.", "1:15 p.m.", "1:30 p.m.", "1:45 p.m.", "2:00 p.m.", "2:15 p.m.", "2:30 p.m.", "2:45 p.m.", "3:00 p.m.", "3:15 p.m.", "3:30 p.m.", "3:45 p.m.", "4:00 p.m.", "4:15 p.m.", "4:30 p.m.", "4:45 p.m.", "5:00 p.m.", "5:15 p.m.", "5:30 p.m.", "5:45 p.m.", "6:00 p.m.", "6:15 p.m.", "6:30 p.m.", "6:45 p.m.", "7:00 p.m.", "7:15 p.m.", "7:30 p.m.", "7:45 p.m.", "8:00 p.m.", "8:15 p.m.", "8:30 p.m.", "8:45 p.m.", "9:00 p.m.", "9:15 p.m.", "9:30 p.m.", "9:45 p.m.", "10:00 p.m." }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "7:00 a.m.", "8:00 a.m.", "9:00 a.m.", "10:00 a.m.", "11:00 a.m.", "12:00 p.m.", "1:00 p.m.", "2:00 p.m.", "3:00 p.m.", "4:00 p.m.", "5:00 p.m.", "6:00 p.m.", "7:00 p.m.", "8:00 p.m.", "9:00 p.m.", "10:00 p.m.", " " }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("Add/Delete:");
-
-        cbAddDelete.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Add", "Delete" }));
-
         cmdAccept.setText("Accept");
+        cmdAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdAcceptActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Day:");
+
+        jLabel7.setText("PetName: ");
+
+        jTableAppo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTableAppo);
+
+        cbPet.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtOwner.setText("jTextField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -85,56 +172,68 @@ public class FormDates extends javax.swing.JPanel {
                 .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(33, 33, 33)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(155, 155, 155))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtPet, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                            .addComponent(txtOwner, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPhone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(cbAddDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel7))
+                        .addGap(17, 17, 17)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbPet, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtOwner, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cmdAccept)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
-                .addComponent(calendar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51))
+                        .addGap(57, 57, 57)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmdAccept)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(calendar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
+                .addComponent(jLabel1)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(cbPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)))
                             .addComponent(txtOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(cbAddDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(cmdAccept)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                            .addComponent(jLabel6)))
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addComponent(cmdAccept)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -146,19 +245,30 @@ public class FormDates extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void cmdAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAcceptActionPerformed
+        // TODO add your handling code here:
+        
+        pet = hash_pet.get(cbPet.getSelectedIndex());
+        txtOwner.setText(pet.getCustomerId().getFirstName()+" "+pet.getCustomerId().getLastName());
+        
+    }//GEN-LAST:event_cmdAcceptActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private raven.calendar.Calendar calendar2;
-    private javax.swing.JComboBox<String> cbAddDelete;
+    private javax.swing.JComboBox<String> cbPet;
     private javax.swing.JButton cmdAccept;
+    private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JComboBox<String> jComboBox1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableAppo;
     private javax.swing.JTextField txtOwner;
-    private javax.swing.JTextField txtPet;
     private javax.swing.JTextField txtPhone;
     // End of variables declaration//GEN-END:variables
 }

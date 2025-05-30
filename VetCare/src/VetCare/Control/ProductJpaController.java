@@ -6,14 +6,13 @@ package VetCare.Control;
 
 import VetCare.Control.exceptions.IllegalOrphanException;
 import VetCare.Control.exceptions.NonexistentEntityException;
-import VetCare.Control.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import VetCare.Entities.Classes.Alarm;
-import VetCare.Entities.Classes.Product;
+import VetCare.Modelo.Alarm;
+import VetCare.Modelo.Product;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,7 +34,7 @@ public class ProductJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Product product) throws PreexistingEntityException, Exception {
+    public void create(Product product) {
         if (product.getAlarmCollection() == null) {
             product.setAlarmCollection(new ArrayList<Alarm>());
         }
@@ -60,11 +59,6 @@ public class ProductJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findProduct(product.getProductId()) != null) {
-                throw new PreexistingEntityException("Product " + product + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -115,7 +109,7 @@ public class ProductJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = product.getProductId();
+                Integer id = product.getProductId();
                 if (findProduct(id) == null) {
                     throw new NonexistentEntityException("The product with id " + id + " no longer exists.");
                 }
@@ -128,7 +122,7 @@ public class ProductJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -184,7 +178,7 @@ public class ProductJpaController implements Serializable {
         }
     }
 
-    public Product findProduct(String id) {
+    public Product findProduct(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Product.class, id);

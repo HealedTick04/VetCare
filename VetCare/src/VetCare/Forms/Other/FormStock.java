@@ -4,21 +4,76 @@
  */
 package VetCare.Forms.Other;
 
+import VetCare.Control.ProductJpaController;
+import VetCare.Modelo.AdmDatos;
+import VetCare.Modelo.ModelTableStock;
+import VetCare.Modelo.Product;
 import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Color;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Date;
+import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 
 /**
  *
  * @author dary_
  */
 public class FormStock extends javax.swing.JPanel {
-
+    private ProductJpaController cProduct;
+    private Product product;
+    private List <Product> products;
+    private ModelTableStock modelo_pro;
+    private NumberFormat format = new DecimalFormat("00.00"); 
+    private SpinnerNumberModel model = new SpinnerNumberModel(1, 0, Integer.MAX_VALUE, 1);
     /**
      * Creates new form FormStock
      */
     public FormStock() {
         initComponents();
         init();
+      
+        loadDataInBackground();
     }
+        
+       private void loadDataInBackground() {
+    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+           
+            jDateChooser1.setMinSelectableDate(new Date());
+            jSpinner1.setModel(model);
+
+            cProduct = new ProductJpaController(AdmDatos.getEnf());
+            products = cProduct.findProductEntities();
+            modelo_pro = new ModelTableStock(products);
+
+
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            try {
+                get(); // para lanzar excepción si hubo error en doInBackground
+
+                jTableProduct.setModel(modelo_pro);
+                System.out.println("Datos cargados. products: " + products.size());
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al cargar datos: " + ex.getMessage());
+            }
+        }
+    };
+
+    worker.execute();
+}
 
     public void init(){
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
@@ -28,14 +83,16 @@ public class FormStock extends javax.swing.JPanel {
                 + "focusWidth:0");
         txtName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ketoprofeno");
         txtBrand.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Naxpet");
-        txtExpiration.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "01/12/2025");
+        jDateChooser1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "01/12/2025");
         txtLot.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "A1Z2025");
         txtPrice.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "$00.00");
         txtCost.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "$00.00");
-        txtStock.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "00");
+        jSpinner1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "00");
         txtDescription.setLineWrap(true);
         txtDescription.setWrapStyleWord(true);
     }
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,26 +110,34 @@ public class FormStock extends javax.swing.JPanel {
         lbBrand = new javax.swing.JLabel();
         txtBrand = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        txtExpiration = new javax.swing.JTextField();
         lbPresentation = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jCombo = new javax.swing.JComboBox<>();
         lbLot = new javax.swing.JLabel();
         txtLot = new javax.swing.JTextField();
         lbPrice = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
         txtCost = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtStock = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         lbDescription = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDescription = new javax.swing.JTextArea();
         cmdAdd = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTableProduct = new javax.swing.JTable();
+        jSpinner1 = new javax.swing.JSpinner();
         lbTitle = new javax.swing.JLabel();
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         llbName.setText("Name:");
+
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
 
         lbType.setText("Type: ");
 
@@ -84,7 +149,7 @@ public class FormStock extends javax.swing.JPanel {
 
         lbPresentation.setText("Presentation: ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tabletas", "Cápsulas", "Pastillas masticables", "Polvo", "Jarabe", "Solución oral", "Gotas", "Inyectable (ampolla)", "Frasco con gotero", "Frasco con dosificador", "Suspensión", "Spray", "Crema", "Pomada", "Ungüento", "Loción", "Gel", "Aerosol", "Shampoo", "Talco", "Pipeta", "Frasco", "Botella", "Sachet", "Bidón (5L, 10L, etc.)", "Sobre", "Paquete", "Caja", "Bolsa (1kg, 5kg, etc.)", "Lata", "Sobre (individual o multipack)", "Galón", "Tetra Pak", "Ración individual", "Caja de alimento (multipack)", "Unidad", "Kit", "Juego (juguetes, accesorios)", "Caja (para transporte)", "Combo promocional", "Blíster (para pastillas)" }));
+        jCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tabletas", "Cápsulas", "Pastillas masticables", "Polvo", "Jarabe", "Solución oral", "Gotas", "Inyectable (ampolla)", "Frasco con gotero", "Frasco con dosificador", "Suspensión", "Spray", "Crema", "Pomada", "Ungüento", "Loción", "Gel", "Aerosol", "Shampoo", "Talco", "Pipeta", "Frasco", "Botella", "Sachet", "Bidón (5L, 10L, etc.)", "Sobre", "Paquete", "Caja", "Bolsa (1kg, 5kg, etc.)", "Lata", "Sobre (individual o multipack)", "Galón", "Tetra Pak", "Ración individual", "Caja de alimento (multipack)", "Unidad", "Kit", "Juego (juguetes, accesorios)", "Caja (para transporte)", "Combo promocional", "Blíster (para pastillas)" }));
 
         lbLot.setText("Lot: ");
 
@@ -107,6 +172,19 @@ public class FormStock extends javax.swing.JPanel {
             }
         });
 
+        jTableProduct.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTableProduct);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -118,7 +196,7 @@ public class FormStock extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 1, Short.MAX_VALUE)
+                                .addComponent(jCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, 1, Short.MAX_VALUE)
                                 .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                                 .addComponent(llbName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lbPresentation))
@@ -142,7 +220,7 @@ public class FormStock extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
-                                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(cmdAdd)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -150,13 +228,19 @@ public class FormStock extends javax.swing.JPanel {
                                         .addComponent(txtBrand, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(lbBrand))
                                     .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1)
-                                        .addComponent(txtExpiration, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel1)
+                                            .addGap(64, 64, 64))
+                                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addGap(145, 145, 145)))
                 .addContainerGap(103, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,11 +252,12 @@ public class FormStock extends javax.swing.JPanel {
                     .addComponent(lbBrand)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtExpiration, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBrand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbPresentation)
@@ -182,18 +267,20 @@ public class FormStock extends javax.swing.JPanel {
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtLot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(lbDescription)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmdAdd))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         lbTitle.setText("Stock Manager");
@@ -216,24 +303,131 @@ public class FormStock extends javax.swing.JPanel {
                 .addComponent(lbTitle)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddActionPerformed
         // TODO add your handling code here:
+           String n =txtName.getText();
+        if (n.equals("")){
+           JOptionPane.showMessageDialog(null, "El nombre está vacío");
+           System.out.println("mal");
+           return;
+        }
+        
+        String brand =txtBrand.getText();
+        if (brand.equals("")){
+           JOptionPane.showMessageDialog(null, "Brand está vacío");
+           System.out.println("mal");
+           return;
+        }
+           Date d =jDateChooser1.getDate();
+
+        if (d == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de expiración.");
+            jDateChooser1.getDateEditor().getUiComponent().setBorder(
+                BorderFactory.createLineBorder(Color.RED)
+            );
+             return;
+        } else {
+            jDateChooser1.getDateEditor().getUiComponent().setBorder(
+                UIManager.getBorder("TextField.border")
+            );
+        }
+        
+        String lote =txtLot.getText();
+        if (lote.equals("")){
+           JOptionPane.showMessageDialog(null, "Lot está vacío");
+           System.out.println("mal");
+           return;
+        }
+        String input = txtCost.getText().trim();
+        double cost;
+            try {
+               cost  = Double.parseDouble(input);  
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un número válido en el campo de costo (ej. 10 o 10.50).");
+                return;
+            }
+            
+            String in = txtPrice.getText().trim();
+            double t;
+            try {
+                 t = Double.parseDouble(in);  
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Debe ingresar un número válido en el campo de precio de compra (ej. 10 o 10.50).");
+                return;
+            }
+            
+            product = new Product();
+            product.setName(n);
+            product.setType((String)cbType.getSelectedItem());
+            product.setBrand(brand);
+            product.setExpirationDate(d);
+            product.setPackaging((String)jCombo.getSelectedItem());
+            product.setBatch(lote);
+            product.setCost(cost);
+            product.setSalePrice(t);
+            product.setDescription((String)txtDescription.getText());
+            product.setStock((int)jSpinner1.getValue());
+            
+            cProduct.create(product);
+            txtName.setText("");
+            txtBrand.setText("");
+            jDateChooser1.setDate(null);
+            txtLot.setText("");
+            txtCost.setText("");
+            txtCost.setText("");
+            txtPrice.setText("");
+            cbType.setSelectedItem(0);
+            jCombo.setSelectedItem(0);
+            jSpinner1.setValue(1);
+            
+            products.add(product);
+            modelo_pro.fireTableDataChanged();
+            
+             lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
+                + "font:$h1.font");
+        cmdAdd.putClientProperty(FlatClientProperties.STYLE, ""
+                + "borderWidth:0;"
+                + "focusWidth:0");
+        txtName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Ketoprofeno");
+        txtBrand.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Naxpet");
+        jDateChooser1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "01/12/2025");
+        txtLot.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "A1Z2025");
+        txtPrice.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "$00.00");
+        txtCost.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "$00.00");
+        jSpinner1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "00");
+        txtDescription.setLineWrap(true);
+        txtDescription.setWrapStyleWord(true);
+            
+            
+            
+
+        
     }//GEN-LAST:event_cmdAddActionPerformed
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbType;
     private javax.swing.JButton cmdAdd;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jCombo;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JTable jTableProduct;
     private javax.swing.JLabel lbBrand;
     private javax.swing.JLabel lbDescription;
     private javax.swing.JLabel lbLot;
@@ -245,10 +439,8 @@ public class FormStock extends javax.swing.JPanel {
     private javax.swing.JTextField txtBrand;
     private javax.swing.JTextField txtCost;
     private javax.swing.JTextArea txtDescription;
-    private javax.swing.JTextField txtExpiration;
     private javax.swing.JTextField txtLot;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPrice;
-    private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
 }
