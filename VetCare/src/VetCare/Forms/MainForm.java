@@ -11,6 +11,7 @@ import VetCare.Menu.MenuAction;
 import VetCare.Forms.Other.FormDashboard;
 import VetCare.Forms.Other.FormDates;
 import VetCare.Forms.Other.FormInbox;
+import VetCare.Forms.Other.FormLineChart;
 import VetCare.Forms.Other.FormRead;
 import VetCare.Forms.Other.FormStock;
 import VetCare.Forms.Other.RegCustomerForm;
@@ -78,7 +79,7 @@ public class MainForm extends JLayeredPane{
         menu.addMenuEvent((int index, int subIndex, MenuAction action) -> {
             // Application.mainForm.showForm(new DefaultForm("Form : " + index + " " + subIndex));
             if (index == 0) {
-                Application.showForm(new FormDashboard());
+                Application.showForm(new FormLineChart());
             } else if (index == 1) {
                 if (subIndex == 1) {
                     Application.showForm(new FormInbox());
