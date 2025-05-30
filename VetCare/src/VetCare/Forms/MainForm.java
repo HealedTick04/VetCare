@@ -5,6 +5,7 @@
 package VetCare.Forms;
 
 import VetCare.Application.Application;
+import VetCare.Forms.Other.FormAddVet;
 import VetCare.Menu.Menu;
 import VetCare.Menu.MenuAction;
 import VetCare.Forms.Other.FormDashboard;
@@ -100,6 +101,12 @@ public class MainForm extends JLayeredPane{
                 } else if(subIndex == 2){
                     Application.showForm(new RegPetForm());
                 } else{
+                    action.cancel();
+                }
+            }else if(index == 7){
+                if(subIndex == 1){
+                    Application.showForm(new FormAddVet());
+                }else{
                     action.cancel();
                 }
             }else if (index == 9) {

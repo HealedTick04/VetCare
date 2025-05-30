@@ -41,7 +41,7 @@ public class Menu extends JPanel{
         {"Register", "Customer","Pet"},
         {"Record", "Pet"},
         {"~ADMIN~"},
-        {"operation", "Add Vet"},
+        {"Operation", "Add Vet"},
         {"Special Pages", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
         {"Logout"}
     };
