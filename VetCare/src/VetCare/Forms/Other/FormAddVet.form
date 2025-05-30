@@ -25,7 +25,6 @@
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbTitle" min="-2" pref="88" max="-2" attributes="0"/>
                           <Component id="txtCURP" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtName" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtLastName" alignment="0" pref="200" max="32767" attributes="0"/>
@@ -40,6 +39,7 @@
                           <Component id="txtNumber" alignment="0" pref="200" max="32767" attributes="0"/>
                       </Group>
                   </Group>
+                  <Component id="lbTitle" alignment="0" min="-2" pref="274" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="287" max="32767" attributes="0"/>
           </Group>

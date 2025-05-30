@@ -86,7 +86,6 @@ public class FormAddVet extends javax.swing.JPanel {
                             .addComponent(jLabel4)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCURP)
                             .addComponent(txtName)
                             .addComponent(txtLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
@@ -97,7 +96,8 @@ public class FormAddVet extends javax.swing.JPanel {
                             .addComponent(jLabel6)
                             .addComponent(txtEmail)
                             .addComponent(jLabel7)
-                            .addComponent(txtNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))
+                            .addComponent(txtNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
+                    .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(287, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
