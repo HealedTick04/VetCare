@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package Test;
+package VetCare.Forms.Record;
 
 /**
  *
  * @author dary_
  */
-public class FormTest extends javax.swing.JPanel {
+public class FormPetRecord extends javax.swing.JPanel {
 
     /**
-     * Creates new form FormTest
+     * Creates new form FormPetRecord
      */
-    public FormTest() {
+    public FormPetRecord() {
         initComponents();
     }
 
