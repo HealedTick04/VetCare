@@ -4,21 +4,89 @@
  */
 package VetCare.Forms.Other;
 
+import VetCare.Control.CustomerJpaController;
+import VetCare.Control.PetJpaController;
+import VetCare.Modelo.AdmDatos;
+import VetCare.Modelo.Customer;
+import VetCare.Modelo.Pet;
+import VetCare.Modelo.ModelTablePet;
+import VetCare.Utils.StringValidator;
 import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Color;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 
 /**
  *
  * @author dary_
  */
 public class RegPetForm extends javax.swing.JPanel {
+    
+    
+    private PetJpaController cPet;
+    private Pet pet;
+    private List <Pet> pets;
+    private ModelTablePet modelo_pet;
+    private CustomerJpaController cCustomer;
+    private Customer customer;
+    private List <Customer> customers;
+    private Map<Integer,Customer> hash_customer = new HashMap<>();        
+    
 
     /**
      * Creates new form RegPetForm
      */
     public RegPetForm() {
         initComponents();
-        init();
+        init(); 
+         loadDataInBackground();
+        
     }
+    private void loadDataInBackground() {
+    SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        @Override
+        protected Void doInBackground() throws Exception {
+            // Establecer fecha máxima seleccionable
+            jDateChooser1.setMaxSelectableDate(new Date());
+
+            // Cargar datos
+            cPet = new PetJpaController(AdmDatos.getEnf());
+            pets = cPet.findPetEntities();
+            modelo_pet = new ModelTablePet(pets);
+
+            cCustomer = new CustomerJpaController(AdmDatos.getEnf());
+            customers = cCustomer.findCustomerEntities();
+
+            return null;
+        }
+
+        @Override
+        protected void done() {
+            try {
+                get(); 
+                getOwners(); 
+
+                jTablePet.setModel(modelo_pet);
+                
+
+                System.out.println("Datos cargados. Mascotas: " + pets.size() + ", Clientes: " + customers.size());
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error al cargar datos: " + ex.getMessage());
+            }
+        }
+    };
+
+    worker.execute();
+}
+
     
     public void init(){
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
@@ -28,9 +96,23 @@ public class RegPetForm extends javax.swing.JPanel {
                 + "focusWidth:0");
         
         txtPetName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Fredo Gogofredo");
-        txtOwner.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example");
-        txtBirthday.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "dd/mm/yyyy");
+        jDateChooser1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "dd/mm/yyyy");
     }
+    
+    public void getOwners(){
+        cbOwner.removeAllItems();
+        cbOwner.addItem("~SELECCIONA~");
+        int i = 1;
+        for(Customer c : customers){
+          String s = c.getFirstName()+ " " + c.getLastName();
+          cbOwner.addItem(s);
+          hash_customer.put(i, c);
+          i++;
+        }
+        
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,7 +123,8 @@ public class RegPetForm extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbTitle = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         lbPetName = new javax.swing.JLabel();
         txtPetName = new javax.swing.JTextField();
@@ -49,19 +132,35 @@ public class RegPetForm extends javax.swing.JPanel {
         cbSpecies = new javax.swing.JComboBox<>();
         cbSex = new javax.swing.JComboBox<>();
         lbSex = new javax.swing.JLabel();
-        txtBirthday = new javax.swing.JTextField();
         lbBirthday = new javax.swing.JLabel();
         lbOwner = new javax.swing.JLabel();
-        txtOwner = new javax.swing.JTextField();
         cmdAdd = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTablePet = new javax.swing.JTable();
+        lbTitle = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        cbOwner = new javax.swing.JComboBox<>();
 
-        lbTitle.setText("Register Pet Form");
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        setMaximumSize(new java.awt.Dimension(806, 465));
 
         lbPetName.setText("Pet Name:");
 
         lbSpecies.setText("Species: ");
 
-        cbSpecies.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--PERROS--", "Chihuahua", "Pomerania", "Yorkshire Terrier", "Bichón Frisé", "Shih Tzu", "Maltés", "Pekinés", "Dachshund (salchicha)", "Beagle", "Cocker Spaniel", "Border Collie", "Bulldog Francés", "Schnauzer mediano", "Shiba Inu", "Staffordshire Bull Terrier", "Labrador Retriever", "Golden Retriever", "Pastor Alemán", "Dóberman", "Boxer", "Husky Siberiano", "Samoyedo", "Akita Inu", "San Bernardo", "Gran Danés", "Mastín Napolitano", "Terranova", "Leonberger", "Mastín Tibetano", "--GATOS--", "Singapura", "Munchkin", "Cornish Rex", "Devon Rex", "American Curl", "Japanese Bobtail", "Siamés", "Bengalí", "Abisinio", "Azul Ruso", "Europeo de pelo corto", "Burmese (Burmés)", "Snowshoe", "Tonkinés", "Maine Coon", "Bosque de Noruega", "Ragdoll", "Siberiano", "British Shorthair (robusto, aunque no muy alto)", "Highlander", "Selkirk Rex", "--AVES DOMESTICAS--", "Periquito (o perico australiano / budgerigar)", "Canario", "Diamante mandarín (zebra finch)", "Diamante de Gould", "Serín (pariente del canario)", "Jilguero (algunas especies pueden domesticarse)", "Agapornis (inseparables / lovebirds)", "Cotorra argentina (monk parakeet)", "Ninfa (carolina / cockatiel)", "Lorito cabeza azul", "Cotorra de Kramer", "Loris", "Guacamayo (macaw)", "Amazona (loros amazónicos)", "Yaco (loro gris africano)", "Cacatúa", "Eclectus", "--AVES DE CORRAL--", "Gallina", "Gallo", "Pato doméstico (Anas platyrhynchos domesticus)", "Ganso doméstico", "Pavo doméstico", "--OTRAS AVES--", "Paloma doméstica o mensajera", "Codorniz japonesa", "Faisán dorado (más ornamental que doméstico, pero criado en aviarios)", "--LAGARTIJAS Y GECKOS--", "Gecko leopardo (Eublepharis macularius)", "Gecko crestado (Correlophus ciliatus)", "Anolis verde (Anolis carolinensis)", "Dragón barbudo (Pogona vitticeps)", "Uromastyx (lagarto espinoso del desierto)", "Skink de lengua azul (Tiliqua scincoides)", "--SERPIENTES DOMESTICAS NO VENEOSAS--", "Serpiente del maíz (Pantherophis guttatus)", "Pitón bola (Python regius)", "Boa constrictor (requiere más experiencia)", "Serpiente rey de California (Lampropeltis getula californiae)", "Serpiente leche (Lampropeltis triangulum)", "--TORTUGAS TERRESTRES(QUELONIOS TERRESTRES)--", "Serpiente del maíz (Pantherophis guttatus)", "Pitón bola (Python regius)", "Boa constrictor (requiere más experiencia)", "Serpiente rey de California (Lampropeltis getula californiae)", "Serpiente leche (Lampropeltis triangulum)", "--TORTUGAS ACUATICAS O SEMIACUATICAS--", "Tortuga de orejas rojas (Trachemys scripta elegans)", "Tortuga de orejas amarillas", "Tortuga almizclera (Sternotherus odoratus)" }));
+        cbSpecies.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--PERROS--", "Chihuahua", "Pomerania", "Yorkshire Terrier", "Bichón Frisé", "Shih Tzu", "Maltés", "Pekinés", "Dachshund (salchicha)", "Beagle", "Cocker Spaniel", "Border Collie", "Bulldog Francés", "Schnauzer mediano", "Shiba Inu", "Staffordshire Bull Terrier", "Labrador Retriever", "Golden Retriever", "Pastor Alemán", "Dóberman", "Boxer", "Husky Siberiano", "Samoyedo", "Akita Inu", "San Bernardo", "Gran Danés", "Mastín Napolitano", "Terranova", "Leonberger", "Mastín Tibetano", "--GATOS--", "Singapura", "Munchkin", "Cornish Rex", "Devon Rex", "American Curl", "Japanese Bobtail", "Siamés", "Bengalí", "Abisinio", "Azul Ruso", "Europeo de pelo corto", "Burmese (Burmés)", "Snowshoe", "Tonkinés", "Maine Coon", "Bosque de Noruega", "Ragdoll", "Siberiano", "British Shorthair (robusto", "aunque no muy alto)", "Highlander", "Selkirk Rex", "--AVES DOMESTICAS--", "Periquito (o perico australiano / budgerigar)", "Canario", "Diamante mandarín (zebra finch)", "Diamante de Gould", "Serín (pariente del canario)", "Jilguero (algunas especies pueden domesticarse)", "Agapornis (inseparables / lovebirds)", "Cotorra argentina (monk parakeet)", "Ninfa (carolina / cockatiel)", "Lorito cabeza azul", "Cotorra de Kramer", "Loris", "Guacamayo (macaw)", "Amazona (loros amazónicos)", "Yaco (loro gris africano)", "Cacatúa", "Eclectus", "--AVES DE CORRAL--", "Gallina", "Gallo", "Pato doméstico (Anas platyrhynchos domesticus)", "Ganso doméstico", "Pavo doméstico", "--OTRAS AVES--", "Paloma doméstica o mensajera", "Codorniz japonesa", "Faisán dorado (más ornamental que doméstico", "pero criado en aviarios)", "--LAGARTIJAS Y GECKOS--", "Gecko leopardo (Eublepharis macularius)", "Gecko crestado (Correlophus ciliatus)", "Anolis verde (Anolis carolinensis)", "Dragón barbudo (Pogona vitticeps)", "Uromastyx (lagarto espinoso del desierto)", "Skink de lengua azul (Tiliqua scincoides)", "--SERPIENTES DOMESTICAS NO VENEOSAS--", "Serpiente del maíz (Pantherophis guttatus)", "Pitón bola (Python regius)", "Boa constrictor (requiere más experiencia)", "Serpiente rey de California (Lampropeltis getula californiae)", "Serpiente leche (Lampropeltis triangulum)", "--TORTUGAS TERRESTRES(QUELONIOS TERRESTRES)--", "Serpiente del maíz (Pantherophis guttatus)", "Pitón bola (Python regius)", "Boa constrictor (requiere más experiencia)", "Serpiente rey de California (Lampropeltis getula californiae)", "Serpiente leche (Lampropeltis triangulum)", "--TORTUGAS ACUATICAS O SEMIACUATICAS--", "Tortuga de orejas rojas (Trachemys scripta elegans)", "Tortuga de orejas amarillas", "Tortuga almizclera (Sternotherus odoratus)" }));
 
         cbSex.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
 
@@ -78,63 +177,85 @@ public class RegPetForm extends javax.swing.JPanel {
             }
         });
 
+        jTablePet.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTablePet);
+
+        lbTitle.setText("Register Pet Form");
+
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+
+        cbOwner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cmdAdd)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(txtBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(txtOwner))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(lbPetName)
-                                    .addGap(152, 152, 152)
-                                    .addComponent(lbSpecies))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtPetName, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(lbBirthday))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lbOwner)
-                                        .addComponent(cbSpecies, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbSex)
-                                .addComponent(cbSex, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(34, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtPetName, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                            .addComponent(lbBirthday, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbPetName, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbSpecies)
+                                    .addComponent(lbOwner)
+                                    .addComponent(cbSpecies, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbSex, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbSex)))
+                            .addComponent(cbOwner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(93, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbPetName)
-                    .addComponent(lbSpecies)
-                    .addComponent(lbSex))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbTitle)
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbPetName)
+                            .addComponent(lbSpecies)
+                            .addComponent(lbSex))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPetName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbSpecies, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbBirthday)
+                            .addComponent(lbOwner))
+                        .addGap(18, 18, 18)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPetName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbSpecies, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbSex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbBirthday)
-                    .addComponent(lbOwner))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtOwner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addComponent(cmdAdd)
-                .addGap(20, 20, 20))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -142,41 +263,123 @@ public class RegPetForm extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addGap(86, 86, 86)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(lbTitle)
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(66, 66, 66)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(125, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddActionPerformed
         // TODO add your handling code here:
+        
+       String n = txtPetName.getText();
+        System.out.println(n+ "dd");
+       if(!StringValidator.isValid(n ) ){
+           JOptionPane.showMessageDialog(null, "El formato del nombre es incorrecto");
+           System.out.println("mal");
+           return;    
+       }
+      
+       Boolean sex = false;
+       if (cbSex.getSelectedItem().equals("Male")){
+           sex = true;
+       }
+       
+        String seleccion = (String)cbSpecies.getSelectedItem();
+
+        if ("--PERROS--".equals(seleccion) ||
+            "--GATOS--".equals(seleccion) ||
+            "--AVES DOMESTICAS--".equals(seleccion) ||
+            "--AVES DE CORRAL--".equals(seleccion) ||
+            "--OTRAS AVES--".equals(seleccion) ||
+            "--LAGARTIJAS Y GECKOS--".equals(seleccion) ||
+            "--SERPIENTES DOMESTICAS NO VENEOSAS--".equals(seleccion) ||
+            "--TORTUGAS TERRESTRES(QUELONIOS TERRESTRES)--".equals(seleccion) ||
+            "--TORTUGAS ACUATICAS O SEMIACUATICAS--".equals(seleccion)) {
+
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una especie en específico");
+            return;
+        }
+        
+        if(cbOwner.getSelectedItem().equals("~SELECCIONA~")){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Dueño.");
+            return;
+        }
+        
+        
+        customer = hash_customer.get(cbOwner.getSelectedIndex());
+        Date d =jDateChooser1.getDate();
+  
+
+    if (d == null) {
+        JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de cumpleaños.");
+        jDateChooser1.getDateEditor().getUiComponent().setBorder(
+            BorderFactory.createLineBorder(Color.RED)
+        );
+         return;
+    } else {
+        jDateChooser1.getDateEditor().getUiComponent().setBorder(
+            UIManager.getBorder("TextField.border")
+        );
+    }
+
+        
+        pet = new Pet();
+        pet.setPetName(n);
+        pet.setSpecies(seleccion);
+        pet.setSex(sex);
+        pet.setCustomerId(customer);
+        pet.setBirthday(d);
+        cPet.create(pet);
+        pets.add(pet);
+        modelo_pet.fireTableDataChanged();
+        
+        jDateChooser1.setDate(null);
+        txtPetName.setText("");
+        cbOwner.setSelectedIndex(0);
+        cbSpecies.setSelectedIndex(0);
+        cbSex.setSelectedIndex(0);
+        
+        
+        txtPetName.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Example: Fredo Gogofredo");
+        
+        jDateChooser1.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "dd/mm/yyyy");
+        
+
+
+
+
+       
+        
+        
+        
     }//GEN-LAST:event_cmdAddActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbOwner;
     private javax.swing.JComboBox<String> cbSex;
     private javax.swing.JComboBox<String> cbSpecies;
     private javax.swing.JButton cmdAdd;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTablePet;
     private javax.swing.JLabel lbBirthday;
     private javax.swing.JLabel lbOwner;
     private javax.swing.JLabel lbPetName;
     private javax.swing.JLabel lbSex;
     private javax.swing.JLabel lbSpecies;
     private javax.swing.JLabel lbTitle;
-    private javax.swing.JTextField txtBirthday;
-    private javax.swing.JTextField txtOwner;
     private javax.swing.JTextField txtPetName;
     // End of variables declaration//GEN-END:variables
 }

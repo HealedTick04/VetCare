@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package VetCare.Entities.Classes;
+package VetCare.Modelo;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -10,6 +10,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,7 +27,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c"),
     @NamedQuery(name = "Customer.findByCustomerId", query = "SELECT c FROM Customer c WHERE c.customerId = :customerId"),
-    @NamedQuery(name = "Customer.findByFistName", query = "SELECT c FROM Customer c WHERE c.fistName = :fistName"),
+    @NamedQuery(name = "Customer.findByFirstName", query = "SELECT c FROM Customer c WHERE c.firstName = :firstName"),
     @NamedQuery(name = "Customer.findByLastName", query = "SELECT c FROM Customer c WHERE c.lastName = :lastName"),
     @NamedQuery(name = "Customer.findByEmail", query = "SELECT c FROM Customer c WHERE c.email = :email"),
     @NamedQuery(name = "Customer.findByPhone", query = "SELECT c FROM Customer c WHERE c.phone = :phone")})
@@ -33,12 +35,13 @@ public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "customerId")
-    private String customerId;
+    private Integer customerId;
     @Basic(optional = false)
-    @Column(name = "fistName")
-    private String fistName;
+    @Column(name = "firstName")
+    private String firstName;
     @Basic(optional = false)
     @Column(name = "lastName")
     private String lastName;
@@ -49,37 +52,39 @@ public class Customer implements Serializable {
     @Column(name = "phone")
     private String phone;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
+    private Collection<Appointment> appointmentCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
     private Collection<Pet> petCollection;
 
     public Customer() {
     }
 
-    public Customer(String customerId) {
+    public Customer(Integer customerId) {
         this.customerId = customerId;
     }
 
-    public Customer(String customerId, String fistName, String lastName, String email, String phone) {
+    public Customer(Integer customerId, String firstName, String lastName, String email, String phone) {
         this.customerId = customerId;
-        this.fistName = fistName;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
     }
 
-    public String getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
-    public String getFistName() {
-        return fistName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFistName(String fistName) {
-        this.fistName = fistName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -104,6 +109,14 @@ public class Customer implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Collection<Appointment> getAppointmentCollection() {
+        return appointmentCollection;
+    }
+
+    public void setAppointmentCollection(Collection<Appointment> appointmentCollection) {
+        this.appointmentCollection = appointmentCollection;
     }
 
     public Collection<Pet> getPetCollection() {
@@ -136,7 +149,7 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "VetCare.EntitiesClasses.Customer[ customerId=" + customerId + " ]";
+        return "VetCare.Modelo.Customer[ customerId=" + customerId + " ]";
     }
     
 }

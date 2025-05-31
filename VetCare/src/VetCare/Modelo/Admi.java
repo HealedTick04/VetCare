@@ -2,12 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package VetCare.Entities.Classes;
+package VetCare.Modelo;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -31,9 +33,10 @@ public class Admi implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "adminId")
-    private String adminId;
+    private Integer adminId;
     @Basic(optional = false)
     @Column(name = "passwordAdmin")
     private String passwordAdmin;
@@ -53,11 +56,11 @@ public class Admi implements Serializable {
     public Admi() {
     }
 
-    public Admi(String adminId) {
+    public Admi(Integer adminId) {
         this.adminId = adminId;
     }
 
-    public Admi(String adminId, String passwordAdmin, String firstName, String lastName, String numberPhone, String email) {
+    public Admi(Integer adminId, String passwordAdmin, String firstName, String lastName, String numberPhone, String email) {
         this.adminId = adminId;
         this.passwordAdmin = passwordAdmin;
         this.firstName = firstName;
@@ -66,11 +69,11 @@ public class Admi implements Serializable {
         this.email = email;
     }
 
-    public String getAdminId() {
+    public Integer getAdminId() {
         return adminId;
     }
 
-    public void setAdminId(String adminId) {
+    public void setAdminId(Integer adminId) {
         this.adminId = adminId;
     }
 
@@ -136,7 +139,7 @@ public class Admi implements Serializable {
 
     @Override
     public String toString() {
-        return "VetCare.EntitiesClasses.Admi[ adminId=" + adminId + " ]";
+        return "VetCare.Modelo.Admi[ adminId=" + adminId + " ]";
     }
     
 }

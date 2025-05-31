@@ -5,8 +5,7 @@
 package VetCare.Control;
 
 import VetCare.Control.exceptions.NonexistentEntityException;
-import VetCare.Control.exceptions.PreexistingEntityException;
-import VetCare.Entities.Classes.Admi;
+import VetCare.Modelo.Admi;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -31,18 +30,13 @@ public class AdmiJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Admi admi) throws PreexistingEntityException, Exception {
+    public void create(Admi admi) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(admi);
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findAdmi(admi.getAdminId()) != null) {
-                throw new PreexistingEntityException("Admi " + admi + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -60,7 +54,7 @@ public class AdmiJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = admi.getAdminId();
+                Integer id = admi.getAdminId();
                 if (findAdmi(id) == null) {
                     throw new NonexistentEntityException("The admi with id " + id + " no longer exists.");
                 }
@@ -73,7 +67,7 @@ public class AdmiJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -118,7 +112,7 @@ public class AdmiJpaController implements Serializable {
         }
     }
 
-    public Admi findAdmi(String id) {
+    public Admi findAdmi(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Admi.class, id);
