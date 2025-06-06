@@ -73,11 +73,10 @@
                       <Component id="cmdAdd" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" alignment="0" min="-2" pref="533" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="txtPetName" alignment="1" pref="190" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="txtPetName" alignment="1" min="-2" pref="190" max="-2" attributes="0"/>
                               <Component id="lbBirthday" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="lbPetName" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jDateChooser1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -128,8 +127,7 @@
                               <Component id="lbBirthday" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lbOwner" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <Component id="cbOwner" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -331,11 +329,6 @@
         <Component class="javax.swing.JLabel" name="lbTitle">
           <Properties>
             <Property name="text" type="java.lang.String" value="Register Pet Form"/>
-          </Properties>
-        </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
-          <Properties>
-            <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbOwner">

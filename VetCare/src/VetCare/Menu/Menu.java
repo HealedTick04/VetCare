@@ -29,20 +29,20 @@ import VetCare.Menu.Mode.ToolBarAccentColor;
  */
 public class Menu extends JPanel{
     private final String menuItems[][] = {
-        {"~MAIN~"},
-        {"Dashboard"},
-        {"~WEB APP~"},
-        {"Dates", "Inbox", "Read", "Compost"},
-        {"Chat"},
-        {""},
-        {"~INVENTORY~"},
-        {"Management", "Stock", "Catalog", "Report"},
-        {"~ARCHIVE~"},
-        {"Register", "Customer","Pet"},
-        {"Record", "Pet"},
-        {"~ADMIN~"},
-        {"Operation", "Add Vet"},
-        {"Special Pages", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
+        {"~MENU~"},
+        {"Recientes"},
+        {"~TRAMITES~"},
+        {"Servicios"},
+        {" "},
+        {"Citas"},
+        {"~INVENTARIO~"},
+        {"Administrar", "Stock", "Catalógo", "Estado"},
+        {"~ARCHIVOS~"},
+        {"Registrar", "Clientes","Mascotas"},
+        {"Expedientes", "Pet"},
+        {"~HERRAMIENTAS~"},
+        {"Operaciones", ""},
+        {"Opciones", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
         {"Logout"}
     };
 

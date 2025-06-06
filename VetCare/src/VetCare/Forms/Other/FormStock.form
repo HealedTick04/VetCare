@@ -99,13 +99,8 @@
                                           <Component id="lbBrand" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="jDateChooser1" max="32767" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -135,13 +130,10 @@
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtName" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbType" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtBrand" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbType" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtBrand" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -352,8 +344,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmdAddActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
           <AuxValues>
