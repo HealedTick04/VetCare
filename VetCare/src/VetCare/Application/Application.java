@@ -4,6 +4,7 @@
  */
 package VetCare.Application;
 
+import VetCare.Forms.Admin.FormAdminMenu;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
@@ -30,6 +31,7 @@ public class Application extends javax.swing.JFrame {
     private static Application app;
     private final MainForm mainForm;
     private final LogingForm loginForm;
+    private final FormAdminMenu FormAdm;
     
     public Application() {
         initComponents();
@@ -37,6 +39,7 @@ public class Application extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         mainForm = new MainForm();
         loginForm = new LogingForm();
+        FormAdm = new FormAdminMenu();
         setContentPane(loginForm);
         getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
         Notifications.getInstance().setJFrame(this);
@@ -70,7 +73,11 @@ public class Application extends javax.swing.JFrame {
     
     public static void AdmLogin(){
         FlatAnimatedLafChange.showSnapshot();
-        
+        app.setContentPane(app.FormAdm);
+        app.FormAdm.applyComponentOrientation(app.getComponentOrientation());
+        setSelectedMenu(0,0);
+        SwingUtilities.updateComponentTreeUI(app.FormAdm);
+        FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
     /**
      * This method is called from within the constructor to initialize the form.

@@ -7,6 +7,7 @@ package VetCare.Forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import VetCare.Application.Application;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -124,7 +125,19 @@ public class LogingForm extends javax.swing.JPanel {
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
         // TODO add your handling code here:
-        Application.login();
+        //Gaby aqui implementa los campos que daran la entrada con los if, ve que usar para ADMIN y que para VET
+        //Usa los parametros que veas convenientes para que cargen los diferenctes login
+        String user = txtUser.getText();
+        String pass = new String(txtPass.getPassword()); 
+
+    
+    if (user.equalsIgnoreCase("admin") && pass.equals("123")) {
+        Application.AdmLogin(); // Login como admin
+    } else if (user.equalsIgnoreCase("vet") && pass.equals("321")) {
+        Application.login(); // Login como veterinario
+    } else {
+        JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+    }
     }//GEN-LAST:event_cmdLoginActionPerformed
 
 

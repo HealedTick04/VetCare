@@ -41,8 +41,8 @@ public class Menu extends JPanel{
         {"Registrar", "Clientes","Mascotas"},
         {"Expedientes", "Pet"},
         {"~HERRAMIENTAS~"},
-        {"Operaciones", ""},
-        {"Opciones", "Blank page", "Faq", "Invoice", "Profile", "Pricing", "Timeline"},
+        {" "},
+        {" "},
         {"Logout"}
     };
 
