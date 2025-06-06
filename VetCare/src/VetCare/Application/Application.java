@@ -67,6 +67,11 @@ public class Application extends javax.swing.JFrame {
     public static void setSelectedMenu(int index, int subIndex) {
         app.mainForm.setSelectedMenu(index, subIndex);
     }
+    
+    public static void AdmLogin(){
+        FlatAnimatedLafChange.showSnapshot();
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
